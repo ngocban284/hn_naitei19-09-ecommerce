@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head>
+<head th:fragment="html_head">
 
     <script type="text/javascript" src="/js/jquery.js"></script>
     <!-- =========== -->
@@ -48,58 +48,12 @@
 <body>
 <div id="content-wrap">
 <!-- Header -->
-<nav>
-<div th:replace="fragments/header"></div>
-</nav>
-
-<!-- Footer -->
-<footer>
-<div th:replace="fragments/footer"></div>
-</footer>
+    <nav th:fragment="header">
+    <div th:replace="fragments/header"></div>
+    </nav>
+    <footer th:fragment="footer" th:style="'position: absolute; bottom: 0; width: 100%; height: ' + (${footerHeight} + 'px')">
+        <div th:replace="fragments/footer"></div>
+    </footer>
 </div>
-
-<input type="hidden" id="status" th:value="${session.status}">
-<th:block th:if="${session.status}"
-          th:text="${#session.removeAttribute('status')}"></th:block>
-
-
-<div id="snackbar"></div>
-
-<!-- Cart Modal -->
-<div class="modal fade" id="cart-modal" data-bs-backdrop="static"
-     data-bs-keyboard="false" tabindex="-1"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fw-bold text-primary"
-                    id="staticBackdropLabel">
-                    <i class="fa-solid  fa-cart-shopping"></i>&nbsp;YOUR CART
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-            </div>
-            <div class="modal-body cart-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn primary-background text-white"
-                        data-bs-dismiss="modal">Continue Shopping</button>
-                <button onclick="checkOut()" type="button"
-                        class="btn btn-success checkout-btn">CHECKOUT</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- FrameWork JS(s) -->
-<script src="/js/fslightbox.js"></script>
-<script src="/js/popper.js"></script>
-<script src="/js/bootstrap.min.js"></script>
-<script
-        src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js"
-        referrerpolicy="origin"></script>
-<!-- -->
-
-
 </body>
 </html>

@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Home Page</title>
-</head>
+<div th:replace="fragments/base-layout :: html_head(title='Home Page')"></div>
 <body>
-<div th:replace="fragments/base-layout">
-
-</div>
-
+<div th:replace="fragments/base-layout :: header"></div>
 <div class="content">
     <h1>Welcome to Our E-Commerce App</h1>
 </div>
+<div th:replace="fragments/base-layout :: footer"></div>
 </body>
 </html>
