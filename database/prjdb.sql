@@ -3,7 +3,7 @@ use Test;
 
 CREATE TABLE Roles (
 id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-name ENUM('Admin','User')
+name ENUM('ADMIN','USER')
 );
 
 
@@ -16,7 +16,7 @@ CREATE TABLE Users (
    password VARCHAR(255) NOT NULL,
    avatar VARCHAR(255),
    role_id INT NOT NULL ,
-   account_status ENUM('Active', 'Inactive', 'Suspended'),
+   account_status ENUM('ACTIVE', 'INACTIVE', 'SUSPENDED') ,
    FOREIGN KEY (role_id) REFERENCES Roles(id)
 );
 
@@ -42,7 +42,7 @@ CREATE TABLE Products (
 
 CREATE TABLE Status (
    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    description ENUM('Pending', 'Processing', 'Shipped', 'Delivered','Cancelled','Rejected') NOT NULL
+    description ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED','CANCELLED','REJECTED') NOT NULL
 );
 CREATE TABLE Reasons (
 	  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -54,7 +54,7 @@ CREATE TABLE Orders (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   user_id int,
   fullname VARCHAR(100), 
-  phoneNumber INT ,
+  phone_number VARCHAR(20) ,
   address VARCHAR(200),
   note VARCHAR(200),
   order_date DATE,

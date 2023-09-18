@@ -1,9 +1,9 @@
 package com.example.ecommerce.model;
 
 public enum AccountStatus {
-    ACTIVE("Active"),
-    INACTIVE("Inactive"),
-    SUSPENDED("Suspended");
+    ACTIVE("ACTIVE"),
+    INACTIVE("INACTIVE"),
+    SUSPENDED("SUSPENDED");
 
     private final String status;
 

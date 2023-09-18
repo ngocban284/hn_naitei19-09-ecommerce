@@ -24,13 +24,30 @@ public class CartDetail {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "total_money", nullable = false)
+    @Column(name = "created_at", nullable = false)
     private Date createdAt;
 
     @Column(name = "updated_at", nullable = false)
     private Date updatedAt;
 
     // Getters and setters
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
 
     public double getPrice() {
         return price;
