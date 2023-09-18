@@ -17,7 +17,7 @@ CREATE TABLE Users (
    avatar VARCHAR(255),
    role_id INT NOT NULL ,
    account_status ENUM('Active', 'Inactive', 'Suspended'),
-   FOREIGN KEY (role_id) REFERENCES Role(id)
+   FOREIGN KEY (role_id) REFERENCES Roles(id)
 );
 
 CREATE TABLE Categories (
@@ -35,7 +35,7 @@ CREATE TABLE Products (
   buy_count INT NOT NULL default 0,
   description VARCHAR(200),
   quantity INT NOT NULL ,
-  FOREIGN KEY (category_id) REFERENCES Category(id)
+  FOREIGN KEY (category_id) REFERENCES Categories(id)
 );
 
 
@@ -75,7 +75,7 @@ CREATE TABLE Order_detail (
   amount INT NOT NULL,
   total_money DECIMAL(20, 2),
   FOREIGN KEY (order_id) REFERENCES Orders(id),
-  FOREIGN KEY (product_id) REFERENCES Product(id)
+  FOREIGN KEY (product_id) REFERENCES Products(id)
 );
 
 CREATE TABLE Carts (
@@ -92,8 +92,8 @@ CREATE TABLE Cart_detail (
    price DECIMAL(20, 2),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   FOREIGN KEY (cart_id) REFERENCES Cart(id),
-   FOREIGN KEY (product_id) REFERENCES Product(id)
+   FOREIGN KEY (cart_id) REFERENCES Carts(id),
+   FOREIGN KEY (product_id) REFERENCES Products(id)
 );
 
 CREATE TABLE Feedbacks (
@@ -103,7 +103,7 @@ CREATE TABLE Feedbacks (
   title VARCHAR(100),
   description VARCHAR(200),
   rating DECIMAL(2,1) NOT NULL,
-  FOREIGN KEY (product_id) REFERENCES Product(id),
+  FOREIGN KEY (product_id) REFERENCES Products(id),
   FOREIGN KEY (order_id) REFERENCES Orders(id)
 );
 
