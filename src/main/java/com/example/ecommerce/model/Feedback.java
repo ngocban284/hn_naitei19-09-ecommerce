@@ -28,6 +28,14 @@ public class Feedback {
 
     // Getters and setters
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public double getRating() {
         return rating;
     }
@@ -67,8 +75,6 @@ public class Feedback {
     public void setProduct(Product product) {
         this.product = product;
     }
-
-
 
 
 }

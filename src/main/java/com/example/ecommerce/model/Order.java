@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "Orders")
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,7 +14,7 @@ public class Order {
     private String fullname;
 
     @Column(name = "phone_number", nullable = false)
-    private int phoneNumber;
+    private String phoneNumber;
 
     @Column(name = "address", nullable = false)
     private String address;
@@ -22,7 +22,7 @@ public class Order {
     @Column(name = "note")
     private String note;
 
-    @Column(name = "total_price", nullable = false)
+    @Column(name = "order_date", nullable = false)
     private Date orderDate;
 
     @ManyToOne
@@ -39,6 +39,14 @@ public class Order {
 
     // Getters and setters
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getFullname() {
         return fullname;
     }
@@ -47,11 +55,11 @@ public class Order {
         this.fullname = fullname;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

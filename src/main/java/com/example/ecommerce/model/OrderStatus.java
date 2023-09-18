@@ -2,12 +2,12 @@ package com.example.ecommerce.model;
 
 public enum OrderStatus {
 
-    PENDING("Pending"),
-    PROCESSING("Processing"),
-    SHIPPED("Shipped"),
-    DELIVERED("Delivered"),
-    CANCELLED("Cancelled"),
-    REJECTED("Rejecected");
+    PENDING("PENDING"),
+    PROCESSING("PROCESSING"),
+    SHIPPED("SHIPPED"),
+    DELIVERED("DELIVERED"),
+    CANCELLED("CANCELLED"),
+    REJECTED("REJECTED");
 
 
     private final String status;

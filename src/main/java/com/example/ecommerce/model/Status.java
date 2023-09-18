@@ -1,8 +1,6 @@
 package com.example.ecommerce.model;
 
 import javax.persistence.*;
-import java.util.Set;
-import  com.example.ecommerce.model.OrderStatus;
 
 @Entity
 @Table(name = "Status")
@@ -16,6 +14,14 @@ public class Status {
     private OrderStatus description;
 
     // Getters and setters
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public OrderStatus getDescription() {
         return description;

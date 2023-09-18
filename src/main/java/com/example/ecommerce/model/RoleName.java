@@ -1,8 +1,8 @@
 package com.example.ecommerce.model;
 
 public enum RoleName {
-    ADMIN("Admin"),
-    USER("User");
+    ADMIN("ADMIN"),
+    USER("USER");
 
     private final String roleName;
 
