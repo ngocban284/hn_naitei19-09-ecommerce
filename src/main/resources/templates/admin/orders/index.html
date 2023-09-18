@@ -1,0 +1,106 @@
+<div class="content-wrapper">
+    <div th:replace="fragments/admin/base-layout"></div>
+
+    <section class="content" style="margin-left:50px; padding:20px">
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Order List</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+
+                                    <th>Order date</th>
+                                    <th>Customer's name</th>
+                                    <th>Customer's phone</th>
+                                    <th>Customer's address</th>
+                                    <th>Total amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <!--                                <tbody>-->
+                                <!--                                <tr th:each="order : ${orders}">-->
+                                <!--                                    <td th:text="${order.id}">1</td>-->
+                                <!--                                    <td th:text="${order.orderDate}"></td>-->
+                                <!--                                    <td th:text="${order.fullname}"></td>-->
+                                <!--                                    <td th:text="${order.phoneNumber}"></td>-->
+                                <!--                                    <td th:text="${order.address}"></td>-->
+                                <!--                                    <td th:text="${order.totalPrice}"></td>-->
+                                <!--                                    <td th:if="${order.status == 'Pending'}"><span-->
+                                <!--                                            class="badge bg-secondary" th:text="${order.status}"></span></td>-->
+                                <!--                                    <td th:if="${order.deliveryStatus == 'Shipped'}"><span-->
+                                <!--                                            class="badge bg-primary" th:text="${order.status}"></span></td>-->
+                                <!--                                    <td th:if="${order.deliveryStatus == 'Delivered'}"><span-->
+                                <!--                                            class="badge bg-success" th:text="${order.status}"></span></td>-->
+                                <!--                                    <td th:if="${order.deliveryStatus == 'Processing'}"><span-->
+                                <!--                                            class="badge bg-info" th:text="${order.status}"></span></td>-->
+                                <!--                                    <td th:if="${order.deliveryStatus == 'Cancelled'}"><span-->
+                                <!--                                            class="badge bg-danger" th:text="${order.status}"></span></td>-->
+                                <!--                                    <td th:if="${order.deliveryStatus == 'Rejected'}"><span-->
+                                <!--                                            class="badge bg-danger" th:text="${order.status}"></span></td>-->
+
+                                <!--                                    <td><a th:href="@{'/admin/orders/' + ${order.id}}"> <i-->
+                                <!--                                            class="fas fa-eye text-primary"></i>-->
+                                <!--                                    </a> <a th:href="@{'/admin/orders/edit/' + ${order.id}}"> <i-->
+                                <!--                                            class="fas fa-edit text-info"></i>-->
+                                <!--                                    </a> <a th:href="@{'/admin/orders/delete/' + ${order.id}}"> <i-->
+                                <!--                                            class="fas fa-trash-alt text-danger"></i>-->
+                                <!--                                    </a></td>-->
+                                <!--                                </tr>-->
+                                <!--                                </tbody>-->
+                                <!-- Dummy Data -->
+                                <tbody>
+                                <tr>
+
+                                    <td>2023-09-01</td>
+                                    <td>John Doe</td>
+                                    <td>123-456-7890</td>
+                                    <td>123 Main St, City</td>
+                                    <td>$100.00</td>
+                                    <td><span class="badge bg-success">Delivered</span></td>
+                                    <td>
+                                        <a href="/admin/orders/1"> <i class="fas fa-eye text-primary"></i></a>
+                                        <a href="/admin/orders/edit/1"> <i class="fas fa-edit text-info"></i></a>
+                                        <a href="/admin/orders/delete/1"> <i
+                                                class="fas fa-trash-alt text-danger"></i></a>
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td>2023-09-02</td>
+                                    <td>Jane Smith</td>
+                                    <td>987-654-3210</td>
+                                    <td>456 Elm St, Town</td>
+                                    <td>$75.00</td>
+                                    <td><span class="badge bg-primary">Shipped</span></td>
+                                    <td>
+                                        <a href="/admin/orders/2"> <i class="fas fa-eye text-primary"></i></a>
+                                        <a href="/admin/orders/edit/2"> <i class="fas fa-edit text-info"></i></a>
+                                        <a href="/admin/orders/delete/2"> <i
+                                                class="fas fa-trash-alt text-danger"></i></a>
+                                    </td>
+                                </tr>
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+</div>
+</html>

@@ -103,24 +103,6 @@ a {
     text-decoration: none;
 }
 
-.badge-soft-danger {
-    color: #f56e6e !important;
-    background-color: rgba(245,110,110,.1);
-}
-.badge-soft-success {
-    color: #63ad6f !important;
-    background-color: rgba(99,173,111,.1);
-}
-
-.badge-soft-primary {
-    color: #3b76e1 !important;
-    background-color: rgba(59,118,225,.1);
-}
-
-.badge-soft-info {
-    color: #57c9eb !important;
-    background-color: rgba(87,201,235,.1);
-}
 
 .avatar-title {
     align-items: center;
@@ -455,17 +437,7 @@ a {
     margin-top: 0px
 }
 
-.badge {
-    display: inline-block;
-    padding: 0.50em .4em;
-    font-size: 75%;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: baseline;
-    border-radius: .25rem
-}
+
 
 .product-rating {
     margin-top: 10px
@@ -953,4 +925,122 @@ ul {
     justify-content: flex-start;
     border-bottom-right-radius: 5px
 }
+
+/*!  Plugin: ssMenu (Sticky Side Navigation)
+
+ */
+* {
+	margin: 0;
+	padding: 0;
+}
+
+.ss-menu {
+	font-style: normal;
+	font-weight: 300;
+	font-smoothing: antialiased;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	position: fixed;
+	z-index: 999;
+	top: 0;
+	left: 0;
+	width: 50px;
+	height: 100%;
+	/* for zombiles browsers*/
+	height: 100vh;
+}
+
+.ss-menu.open {
+	width: 290px;
+}
+
+.ss-menu.hide {
+	left: -60px;
+}
+
+.ss-menu.show {
+	left: 0;
+}
+
+
+/* ssMenu Default Theme */
+
+.ss-menu.default {
+	background: #0f4c81!important;
+}
+
+.ss-menu.default ul li:hover {
+	background: #e00032;
+}
+
+.ss-menu.default ul li a {
+	color: rgba(255, 255, 255, 0.55);
+}
+
+.ss-menu ul li:hover {
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.ss-menu.default ul li i {
+	color: rgba(255, 255, 255, 0.40);
+}
+.ss-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.ss-menu ul li {
+	white-space: nowrap;
+	border-radius: 0 30px 30px 0;
+	margin: 0 10px 0 0;
+	overflow: hidden;
+}
+
+.ss-menu ul li a {
+	color: #ffffff;
+	/* For older browsers */
+	color: rgba(255, 255, 255, 0.85);
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+	padding: 15px 10px;
+	display: block;
+	border-bottom: 1px dotted rgba(255, 255, 255, 0.05);
+	font-size: 14px;
+	vertical-align: center;
+}
+
+.ss-menu ul li a:hover {
+	text-indent: 4px;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+.ss-menu ul li i {
+	margin: 0 6px;
+	color: rgba(255, 255, 255, 0.70);
+	font-size: 22px;
+}
+
+.ss-menu ul li:hover i {
+	color: rgba(255, 255, 255, 0.8);
+}
+
+.ss-main {
+	margin-left: 50px;
+}
+
+
+/*Transitions For Specific Items */
+
+.ss-menu,
+.ss-menu.open,
+.ss-menu ul li,
+.ss-menu ul li a,
+.ss-menu ul li:hover,
+.ss-menu ul li a:hover {
+	transition: .3s all;
+	-webkit-transition: .3s all;
+	-moz-transition: .3s all;
+}
+
+
 
