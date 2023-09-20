@@ -10,7 +10,7 @@ public class Reason {
     private Long id;
 
     @Column(name = "text", nullable = false)
-    private String text;
+    private String description;
 
     // Getters and setters
 
@@ -22,11 +22,11 @@ public class Reason {
         this.id = id;
     }
 
-    public String getText() {
-        return text;
+    public String getDescription() {
+        return description;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -1,7 +1,9 @@
 package com.example.ecommerce.service.impl;
 
+import com.example.ecommerce.dao.OrderDetailRepository;
 import com.example.ecommerce.dao.OrderRepository;
 import com.example.ecommerce.model.Order;
+import com.example.ecommerce.model.OrderDetail;
 import com.example.ecommerce.service.OrderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,9 @@ public class OrderServiceImpl implements OrderService {
     private static final Logger logger = Logger.getLogger(OrderServiceImpl.class);
     @Autowired
     private OrderRepository orderRepository;
+
+    @Autowired
+    private OrderDetailRepository orderDetailRepository;
 
     @Override
     public List<Order> findAll() {
@@ -37,5 +42,9 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public List<OrderDetail> findOrderDetailsByOrderId(Long orderId) {
 
+        return orderDetailRepository.findByOrderId(orderId);
+    }
 }

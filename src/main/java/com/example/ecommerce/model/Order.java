@@ -1,7 +1,7 @@
 package com.example.ecommerce.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "orders")
@@ -22,8 +22,11 @@ public class Order {
     @Column(name = "note")
     private String note;
 
+    @Column(name = "total", nullable = false)
+    private double total;
+
     @Column(name = "order_date", nullable = false)
-    private Date orderDate;
+    private LocalDate orderDate;
 
     @ManyToOne
     @JoinColumn(name = "status", nullable = false)
@@ -79,11 +82,19 @@ public class Order {
         this.note = note;
     }
 
-    public Date getOrderDate() {
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public LocalDate getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDate orderDate) {
         this.orderDate = orderDate;
     }
 

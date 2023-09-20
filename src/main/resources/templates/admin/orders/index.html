@@ -20,8 +20,8 @@
                                     <th>Customer's name</th>
                                     <th>Customer's phone</th>
                                     <th>Customer's address</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
+                                    <th class="text-center">Status</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                                 </thead>
                                                                 <tbody>
@@ -31,7 +31,7 @@
                                                                     <td th:text="${order.fullname}"></td>
                                                                     <td th:text="${order.phoneNumber}"></td>
                                                                     <td th:text="${order.address}"></td>
-                                                                    <td th:switch="${order.status.description.getStatus()}">
+                                                                    <td class="text-center" th:switch="${order.status.description.getStatus()}">
                                                                         <span class="badge bg-secondary" th:case="'PENDING'">Pending</span>
                                                                         <span class="badge bg-primary" th:case="'SHIPPED'">Shipped</span>
                                                                         <span class="badge bg-success" th:case="'DELIVERED'">Delivered</span>
@@ -40,7 +40,7 @@
                                                                         <span class="badge bg-danger" th:case="'REJECTED'">Rejected</span>
                                                                         <span class="badge bg-light" th:case="*">Unknown</span>
                                                                     </td>
-                                                                    <td><a th:href="@{'/admin/orders/' + ${order.id}}"> <i
+                                                                    <td class="text-center"><a th:href="@{'/admin/orders/' + ${order.id}}"> <i
                                                                             class="fas fa-eye text-primary"></i>
                                                                     </a> <a th:href="@{'/admin/orders/edit/' + ${order.id}}"> <i
                                                                             class="fas fa-edit text-info"></i>

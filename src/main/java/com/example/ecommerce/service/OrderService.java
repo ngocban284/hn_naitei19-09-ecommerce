@@ -6,4 +6,5 @@ import com.example.ecommerce.model.OrderDetail;
 import java.util.List;
 
 public interface OrderService extends BaseService<Long, Order> {
+    List<OrderDetail> findOrderDetailsByOrderId(Long orderId);
 }
