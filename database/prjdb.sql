@@ -57,6 +57,7 @@ CREATE TABLE Orders (
   phone_number VARCHAR(20) ,
   address VARCHAR(200),
   note VARCHAR(200),
+  total DECIMAL(20, 2),
   order_date DATE,
   status int,
   reason int,

@@ -1,0 +1,165 @@
+<div class="content-wrapper">
+    <div th:replace="fragments/admin/base-layout"></div>
+
+    <section class="content" style="margin-left:50px; padding:20px">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Add a Back Button -->
+                <a href="/admin/orders/" class="btn btn-outline-primary">
+                    <i class="fas fa-arrow-left"></i> Back to Orders
+                </a>
+            </div>
+        </div>
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-10 col-xl-8">
+                    <div class="card" style="border-radius: 10px">
+                        <div class="card-header px-4 py-5">
+                            <h5 class="text-muted mb-0">
+                                <span>Thanks for your Order! </span>
+                            </h5>
+                        </div>
+                        <div class="card-body p-4">
+                            <div
+                                    class="d-flex justify-content-between align-items-center mb-4"
+                            >
+                                <p class="lead fw-normal mb-0"
+                                   style="color: #0f4c81!important;">
+                                    Receipt
+                                </p>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div>
+                                        <p class="text-muted mb-0"><span class="fw-bold me-1">Name : </span><span
+                                                th:text="${order.fullname}"></span></p>
+                                    </div>
+                                    <div class="text-grey-m2">
+                                        <div class="my-1">
+                                            <p class="text-muted mb-0"><span class="fw-bold me-1">Address : </span><span
+                                                    th:text="${order.address}"></span></p>
+                                        </div>
+                                        <div class="my-1"><i class="fa fa-phone fa-flip-horizontal text-secondary"></i>
+                                            <span th:text="${order.phoneNumber}"></span></div>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+
+                                <div class="text-95 col-sm-6 align-self-start d-sm-flex justify-content-end">
+                                    <hr class="d-sm-none"/>
+                                    <div class="text-grey-m2">
+
+                                        <p class="text-muted mb-0"><span class="fw-bold me-1">Date : </span><span
+                                                th:text="${order.orderDate}"></span></p>
+
+                                        <p class="text-muted mb-0"><span class="fw-bold me-0">Status :
+                                        </span>
+                                            <span class="badge" th:switch="${order.status.description.getStatus()}">
+                                            <span th:case="'PENDING'" class="badge bg-secondary">Pending</span>
+                                            <span th:case="'SHIPPED'" class="badge bg-primary">Shipped</span>
+                                            <span th:case="'DELIVERED'" class="badge bg-success">Delivered</span>
+                                            <span th:case="'PROCESSING'" class="badge bg-info">Processing</span>
+                                            <span th:case="'CANCELLED'" class="badge bg-danger">Cancelled</span>
+                                            <span th:case="'REJECTED'" class="badge bg-danger">Rejected</span>
+                                            <span th:case="*" class="badge bg-light"></span>
+                                        </span>
+                                        </p>
+
+                                        <p class="text-muted mb-0"
+                                           th:if="${order.status.description.getStatus() == 'REJECTED' or order.status.description.getStatus() == 'CANCELLED' }">
+                                            <span class="fw-bold me-1">Reason : </span><span class="text-danger"
+                                                                                             th:text="${order.reason.description}"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
+                            </div>
+                            <div class="d-flex justify-content-between mb-5">
+                            </div>
+
+                            <div
+                                    class="card shadow-0 border mb-4"
+                                    th:each="order_item: ${orderDetails}"
+                            >
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <img
+                                                    th:src="${order_item.product.image} "
+                                                    class="img-fluid"
+                                                    alt="Phone"
+                                            />
+                                        </div>
+                                        <div
+                                                class="col-md-2 text-center d-flex justify-content-center align-items-center"
+                                        >
+                                            <p
+                                                    class="text-muted mb-0"
+                                                    th:text="${order_item.product.name}"
+                                            ></p>
+                                        </div>
+
+                                        <div
+                                                class="col-md-2 text-center d-flex justify-content-center align-items-center"
+                                        >
+                                            <p
+                                                    class="text-muted mb-0 small"
+                                                    th:text="${order_item.price +' $'}"
+                                            ></p>
+                                        </div>
+                                        <div
+                                                class="col-md-2 text-center d-flex justify-content-center align-items-center"
+                                        >
+                                            <p
+                                                    class="text-muted mb-0 small"
+                                                    th:text="${order_item.amount}"
+                                            ></p>
+                                        </div>
+                                        <div
+                                                class="col-md-2 text-center d-flex justify-content-center align-items-center"
+                                        >
+                                            <p
+                                                    class="text-muted mb-0 small"
+                                                    th:text="${order_item.totalMoney+' $'}"
+                                            ></p>
+                                        </div>
+                                    </div>
+                                    <hr
+                                            class="mb-4"
+                                            style="background-color: #e0e0e0; opacity: 1"
+                                    />
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <p class="text-muted mb-0"><strong>Note:</strong>
+                                    <span th:text="${order.note}"></span>
+                                </p>
+                            </div>
+
+                        </div>
+                        <div
+                                class="card-footer border-0 px-4 py-5"
+                                style="
+                background-color: #0f4c81!important;
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+              "
+                        >
+                            <h5
+                                    class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0"
+                            >
+                                Total paid:
+                                <span
+                                        class="h2 mb-0 ms-2"
+                                        th:text="${order.total+' $'}"
+                                ></span>
+                            </h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>
+</html>
