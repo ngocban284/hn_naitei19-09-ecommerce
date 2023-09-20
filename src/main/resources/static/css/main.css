@@ -1042,5 +1042,33 @@ ul {
 	-moz-transition: .3s all;
 }
 
+.detail-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
+.status-PENDING {
+    color: orange !important;
+}
+
+.status-PROCESSING {
+    color: blue !important;
+}
+
+.status-SHIPPED {
+    color: green !important;
+}
+
+.status-DELIVERED {
+    color: teal !important;
+}
+
+.status-CANCELLED {
+    color: red !important;
+}
+
+.status-REJECTED {
+    color: gray !important;
+}
 

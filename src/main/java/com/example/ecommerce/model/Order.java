@@ -2,6 +2,7 @@ package com.example.ecommerce.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
@@ -9,6 +10,9 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "order_code", nullable = false)
+    private String orderCode;
 
     @Column(name = "fullname", nullable = false)
     private String fullname;
@@ -40,7 +44,12 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // Getters and setters
+    public List<OrderDetail> getOrderDetails() {
+        return orderDetails;
+    }
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails;
 
     public Long getId() {
         return id;
@@ -120,6 +129,10 @@ public class Order {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
     }
 
 }

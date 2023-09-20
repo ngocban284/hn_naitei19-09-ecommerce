@@ -4,6 +4,7 @@ import com.example.ecommerce.dao.OrderDetailRepository;
 import com.example.ecommerce.dao.OrderRepository;
 import com.example.ecommerce.model.Order;
 import com.example.ecommerce.model.OrderDetail;
+import com.example.ecommerce.model.OrderDetail;
 import com.example.ecommerce.service.OrderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,15 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    public List<Order> findByUserId(Long userId) {
+        try {
+            return orderRepository.findByUserId(userId);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return null;
+        }
+    }
     @Override
     public List<OrderDetail> findOrderDetailsByOrderId(Long orderId) {
 
