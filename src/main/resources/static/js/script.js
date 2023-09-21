@@ -5,6 +5,19 @@ $(document).ready(function() {
 		selector: '#productdescription'
 	});
 
+$('.table .btn').on('click',function(event) {
+        event.preventDefault();
+
+        // Get the order ID from the data attribute
+        const orderId = $(this).data('order-id');
+
+        // Update the modal input field with the order ID
+        $('#orderId').val(orderId);
+
+        // Open the modal
+        $('#editModal').modal();
+    });
+
 
 
 });
@@ -313,7 +326,7 @@ function toggleReviewInput() {
     // Submit the form when the user clicks the "Post Review" button
   }
 
-  
+
   // Check if the reviewForm element exists and has a submit event
   if (reviewForm && reviewForm.addEventListener && reviewForm.dispatchEvent) {
     // Add a submit event listener to the reviewForm element

@@ -44,10 +44,7 @@ CREATE TABLE Status (
    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     description ENUM('PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED','CANCELLED','REJECTED') NOT NULL
 );
-CREATE TABLE Reasons (
-	  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      description text
-);
+
 
 
 CREATE TABLE Orders (
@@ -60,9 +57,8 @@ CREATE TABLE Orders (
   total DECIMAL(20, 2),
   order_date DATE,
   status int,
-  reason int,
+  reason VARCHAR(200),
   FOREIGN KEY (status) REFERENCES Status(id),
-  FOREIGN KEY (reason) REFERENCES Reasons(id),
   FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
