@@ -32,13 +32,13 @@ public class Order {
     @Column(name = "order_date", nullable = false)
     private LocalDate orderDate;
 
+    @Column(name = "reason")
+    private String reason;
+
     @ManyToOne
     @JoinColumn(name = "status", nullable = false)
     private Status status;
 
-    @ManyToOne
-    @JoinColumn(name = "reason")
-    private Reason reason;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -107,6 +107,13 @@ public class Order {
         this.orderDate = orderDate;
     }
 
+    public String getReason() {
+        return reason;
+    }
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     public Status getStatus() {
         return status;
     }
@@ -115,13 +122,6 @@ public class Order {
         this.status = status;
     }
 
-    public Reason getReason() {
-        return reason;
-    }
-
-    public void setReason(Reason reason) {
-        this.reason = reason;
-    }
 
     public User getUser() {
         return user;
