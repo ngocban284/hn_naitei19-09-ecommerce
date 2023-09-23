@@ -3,7 +3,7 @@
 <div th:replace="fragments/base-layout :: html_head(title='My Orders')"></div>
 <body>
 <div th:replace="fragments/base-layout :: header"></div>
-<div class="container mt-5">
+<div class="container content mt-5">
   <div class="row">
     <div class="col-md-12">
       <h2>My Orders</h2>
@@ -20,9 +20,19 @@
         <tr th:each="order : ${orders}">
           <td th:text="${order.orderCode}"></td>
           <td th:text="${order.total}"></td>
-          <td th:text="${order.status.description}" th:class="'status-' + ${order.status.description}"></td>
+          <td>
+            <span class="badge badge-large" th:switch="${order.status.description.getStatus()}">
+                <span th:case="'PENDING'" class="badge bg-secondary badge-lg">Pending</span>
+                <span th:case="'SHIPPED'" class="badge bg-primary badge-lg">Shipped</span>
+                <span th:case="'DELIVERED'" class="badge bg-success badge-lg ">Delivered</span>
+                <span th:case="'PROCESSING'" class="badge bg-info badge-lg">Processing</span>
+                <span th:case="'CANCELLED'" class="badge bg-danger badge-lg">Cancelled</span>
+                <span th:case="'REJECTED'" class="badge bg-danger badge-lg">Rejected</span>
+                <span th:case="*" class="badge bg-light"></span>
+            </span>
+          </td>
           <td th:class="detail-button">
-            <a th:href="${ '/my-orders/' + order.orderCode}" class="btn btn-info btn-sm">View Detail</a>
+            <a th:href="@{ '/my-orders/' + ${order.orderCode}}" th:class="'view-detail-button'"> View Detail </a>
           </td>
         </tr>
         </tbody>

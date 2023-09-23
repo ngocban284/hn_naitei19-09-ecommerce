@@ -1048,27 +1048,32 @@ ul {
     align-items: center;
 }
 
-.status-PENDING {
-    color: orange !important;
+.badge-large {
+    font-size: 1.25rem !important;
+    padding: 0.5rem 1rem !important;
 }
 
-.status-PROCESSING {
-    color: blue !important;
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.status-SHIPPED {
-    color: green !important;
+.content {
+    flex: 1;
 }
 
-.status-DELIVERED {
-    color: teal !important;
+.view-detail-button {
+  background-color: #007bff;
+  color: #fff;
+  border: 1px solid #007bff;
+  padding: 5px 10px;
+  text-decoration: none;
+  border-radius: 3px;
 }
 
-.status-CANCELLED {
-    color: red !important;
+.view-detail-button:hover {
+  background-color: #0056b3;
+  color: #fff;
+  border: 1px solid #0056b3;
 }
-
-.status-REJECTED {
-    color: gray !important;
-}
-

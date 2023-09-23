@@ -61,7 +61,10 @@ public class OrderServiceImpl implements OrderService {
 
         return orderDetailRepository.findByOrderId(orderId);
     }
-
+    @Override
+    public Order findOrderByOrderCode(String orderCode) {
+        return orderRepository.findByOrderCode(orderCode);
+    }
 
     @Override
     @Transactional

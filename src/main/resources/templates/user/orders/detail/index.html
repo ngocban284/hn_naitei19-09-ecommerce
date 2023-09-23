@@ -1,0 +1,81 @@
+<!-- orderDetails.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/base-layout :: html_head(title='Orders Detail')"></div>
+</head>
+<body>
+<div th:replace="fragments/base-layout :: header"></div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="h-100 gradient-custom">
+                <div class="container py-5 h-100">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col-lg-10 col-xl-8">
+                            <div class="card" style="border-radius: 10px;">
+                                <div class="card-header px-4 py-5">
+                                    <h5 class="text-muted mb-0">Thanks for your Order, <span style="color: #0F4C81;">Ming</span>!</h5>
+                                </div>
+                                <div class="card-body p-4" >
+                                    <div class="d-flex justify-content-between align-items-center mb-4">
+                                        <p class="lead fw-normal mb-0" style="color: #0F4C81;">Receipt</p>
+                                    </div>
+                                    <div class="card shadow-0 border mb-4" th:each="orderDetail : ${orderDetails}">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-2">
+<!--                                                    add pict to here-->
+                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/13.webp"
+                                                         class="img-fluid" alt="Phone">
+                                                </div>
+                                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                    <p class="text-muted mb-0" th:text="${orderDetail.product.name}"></p>
+                                                </div>
+                                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                    <p class="text-muted mb-0 small" th:text="${orderDetail.product.brand}"></p>
+                                                </div>
+                                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                    <p class="text-muted mb-0 small" th:text="${orderDetail.price}"></p>
+                                                </div>
+                                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                    <p class="text-muted mb-0 small" th:text="${orderDetail.amount}"></p>
+                                                </div>
+                                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                                    <p class="text-muted mb-0 small" th:text="${orderDetail.totalMoney + '$'}"></p>
+                                                </div>
+                                            </div>
+                                            <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-between align-items-center pt-2">
+                                        <p class="text-muted mb-0">Track order : </p>
+                                        <div class="col-md-10" th:with="trimmedStatus=${#strings.trim(status)}">
+                                            <span class="badge badge-large" th:switch="${status}">
+                                                <span th:case="'PENDING'" class="badge bg-secondary badge-lg">Pending</span>
+                                                <span th:case="'SHIPPED'" class="badge bg-primary badge-lg">Shipped</span>
+                                                <span th:case="'DELIVERED'" class="badge bg-success badge-lg ">Delivered</span>
+                                                <span th:case="'PROCESSING'" class="badge bg-info badge-lg">Processing</span>
+                                                <span th:case="'CANCELLED'" class="badge bg-danger badge-lg">Cancelled</span>
+                                                <span th:case="'REJECTED'" class="badge bg-danger badge-lg">Rejected</span>
+                                                <span th:case="*" class="badge bg-light"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer border-0 px-4 py-5"
+                                     style="background-color: #0F4C81; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                                    <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0"><span class="h2 mb-0 ms-2" > Total
+                                        paid: </span> <span class="h2 mb-0 ms-2" th:text="${orderTotal + '$'}"></span></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/base-layout :: footer"  th:class="footer" ></div>
+</body>
+</html>
