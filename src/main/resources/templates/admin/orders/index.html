@@ -13,7 +13,7 @@
                             <table class="table table-bordered table-striped">
                                 <thead>
                                 <tr>
-
+                                    <th>Order code</th>
                                     <th>Order date</th>
                                     <th>Customer's name</th>
                                     <th>Customer's phone</th>
@@ -24,7 +24,7 @@
                                 </thead>
                                 <tbody>
                                 <tr th:each="order : ${orders}">
-
+                                    <td th:text="${order.orderCode}"></td>
                                     <td th:text="${order.orderDate}"></td>
                                     <td th:text="${order.fullname}"></td>
                                     <td th:text="${order.phoneNumber}"></td>
@@ -38,22 +38,41 @@
                                         <span class="badge bg-danger" th:case="'REJECTED'">Rejected</span>
                                         <span class="badge bg-light" th:case="*">Unknown</span>
                                     </td>
-                                    <td class="text-center"><a th:href="@{'/admin/orders/' + ${order.id}}"> <i
+                                    <td class="text-center"><a class="btn" th:href="@{'/admin/orders/' + ${order.id}}"> <i
                                             class="fas fa-eye text-primary"></i>
                                     </a>
-                                        <a class="btn" th:data-order-id="${order.id}" data-bs-toggle="modal"
-                                                data-bs-target="#editModal">
+                                        <a class="btn edit-order-link" th:data-order-id="${order.id}"
+                                           data-bs-toggle="modal"
+                                           data-bs-target="#editModal">
                                             <i class="fas fa-edit text-info"></i>
                                         </a>
-                                        <a th:href="@{'/admin/orders/delete/' + ${order.id}}"> <i
-                                                class="fas fa-trash-alt text-danger"></i>
-                                        </a></td>
+                                    </td>
 
                                 </tr>
                                 </tbody>
-
-
                             </table>
+                            <div th:with="pageInfo=${ordersPage}">
+                                <ul class="pagination">
+                                    <!-- Previous Page -->
+                                    <li th:if="${pageInfo.hasPrevious()}" class="page-item">
+                                        <a class="page-link"
+                                           th:href="@{${#httpServletRequest.requestURI}(page=${pageInfo.previousPageable().pageNumber})}">&laquo;</a>
+                                    </li>
+
+                                    <!-- Page Numbers -->
+                                    <li th:each="i : ${#numbers.sequence(0, pageInfo.totalPages - 1)}"
+                                        class="page-item">
+                                        <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(page=${i})}"
+                                           th:text="${i + 1}"></a>
+                                    </li>
+
+                                    <!-- Next Page -->
+                                    <li th:if="${pageInfo.hasNext()}" class="page-item">
+                                        <a class="page-link"
+                                           th:href="@{${#httpServletRequest.requestURI}(page=${pageInfo.nextPageable().pageNumber})}">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -73,9 +92,11 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form th:action="@{/admin/orders/update-status}" method="post" th:object="${order}" id="updateStatusForm">
+                    <form th:action="@{/admin/orders/update-status}" method="post" th:object="${order}"
+                          id="updateStatusForm">
 
-                            <input type="hidden" class="form-control" id="orderId" name="orderId" th:value="${order.id}" readonly />
+                        <input type="hidden" class="form-control" id="orderId" name="orderId" th:value="${order.id}"
+                               readonly/>
                         <div class="mb-3">
                             <label for="status" class="form-label">Status:</label>
                             <select class="form-select" id="status" name="status">
@@ -88,7 +109,8 @@
 
                         <div class="mb-3">
                             <label for="reason" class="form-label">Reason (if rejected):</label>
-                            <input type="text" class="form-control" id="reason" name="reason" th:value="${order.reason}" />
+                            <input type="text" class="form-control" id="reason" name="reason"
+                                   th:value="${order.reason}"/>
                         </div>
 
                         <div class="text-center">
@@ -100,6 +122,11 @@
         </div>
     </div>
 
+    <div id="flash-message" th:if="${flashMessage != null}">
+        <div class="alert alert-success" role="alert">
+            <span th:text="${flashMessage}"></span>
+        </div>
+    </div>
 
 </div>
 
