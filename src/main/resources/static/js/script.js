@@ -1,9 +1,9 @@
 $(document).ready(function() {
-	$('[rel="tooltip"]').tooltip({ trigger: "hover" });
-
-	tinymce.init({
-		selector: '#productdescription'
-	});
+//	$('[rel="tooltip"]').tooltip({ trigger: "hover" });
+//
+//	tinymce.init({
+//		selector: '#productdescription'
+//	});
 
 $('.edit-order-link').on('click',function(event) {
         event.preventDefault();

@@ -13,4 +13,11 @@ public enum RoleName {
     public String getRoleName() {
         return roleName;
     }
+
+    public static RoleName getByUpperCaseName(String name) {
+        if (name == null || name.isEmpty()) {
+            return null;
+        }
+        return RoleName.valueOf(name.toUpperCase());
+    }
 }

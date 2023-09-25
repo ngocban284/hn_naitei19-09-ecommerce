@@ -1,7 +1,6 @@
 $(document).ready(function() {
 
-	var status = document.getElementById("status").value;
-
+	var status = document.getElementById("status")?.value;
 	if (status == "email-exist") {
 		swal({
 			title: "Error!",
