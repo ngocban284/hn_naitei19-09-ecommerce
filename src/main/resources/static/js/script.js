@@ -5,7 +5,7 @@ $(document).ready(function() {
 		selector: '#productdescription'
 	});
 
-$('.table .btn').on('click',function(event) {
+$('.edit-order-link').on('click',function(event) {
         event.preventDefault();
 
         // Get the order ID from the data attribute

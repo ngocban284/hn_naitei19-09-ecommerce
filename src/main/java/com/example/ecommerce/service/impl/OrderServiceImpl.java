@@ -7,6 +7,10 @@ import com.example.ecommerce.model.*;
 import com.example.ecommerce.service.OrderService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -92,6 +96,26 @@ public class OrderServiceImpl implements OrderService {
         }
 
     }
+    @Override
+    public Page<Order> findAllPaginated(int page, int size, String sortField, String sortOrder) {
+        try {
+            Sort sort = Sort.by(sortField);
+            if ("desc".equalsIgnoreCase(sortOrder)) {
+                sort = sort.descending();
+            } else {
+                sort = sort.ascending();
+            }
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+
+            // Sử dụng trường "orderDate" để sắp xếp
+            return orderRepository.findAll(pageable);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return Page.empty(); // Return an empty page in case of an error
+        }
+    }
+
 
 
 }
