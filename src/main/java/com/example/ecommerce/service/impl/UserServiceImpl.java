@@ -1,18 +1,23 @@
 package com.example.ecommerce.service.impl;
 
-import java.util.*;
-
 import com.example.ecommerce.DTO.UserRegistrationDto;
 import com.example.ecommerce.dao.RoleRepository;
+import com.example.ecommerce.dao.UserRepository;
 import com.example.ecommerce.exeptions.RegistrationException;
 import com.example.ecommerce.model.Role;
-import org.apache.log4j.Logger;
-
-import com.example.ecommerce.dao.UserRepository;
+import com.example.ecommerce.model.RoleName;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
 
 
 @Service
@@ -27,10 +32,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll() {
-        try{
+        try {
             return userRepository.findAll();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             logger.error(e.getMessage());
             return Collections.emptyList();
         }
@@ -43,21 +47,59 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(UserRegistrationDto registrationDto) {
-        if(registrationDto.getPassword().equals(registrationDto.getConfirmPassword())){
+        if (registrationDto.getPassword().equals(registrationDto.getConfirmPassword())) {
             User existsUser = userRepository.findByEmail(registrationDto.getEmail());
-            if(existsUser == null) {
+            if (existsUser == null) {
                 Role role = roleRepository.findById(1).orElse(null);
                 User user = new User(
                         registrationDto.getName(), registrationDto.getEmail(),
                         registrationDto.getPassword(), role);
                 return userRepository.save(user);
-            }else{
+            } else {
                 throw new RegistrationException("Email already exists");
             }
-        }else{
+        } else {
             throw new RegistrationException("The Confirm Password confirmation does not match");
         }
     }
 
 
+    @Override
+    public Page<User> findAllPaginated(int page, int size, String sortField, String sortOrder) {
+        try {
+            Sort sort = Sort.by(sortField);
+            if ("desc".equalsIgnoreCase(sortOrder)) {
+                sort = sort.descending();
+            } else {
+                sort = sort.ascending();
+            }
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+
+            return userRepository.findByRoleName(RoleName.USER, pageable);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return Page.empty(); // Return an empty page in case of an error
+        }
+    }
+
+    @Override
+    public Page<User> searchByFullname(String name, int page, int size, String sortField, String sortOrder) {
+        try {
+            Sort sort = Sort.by(sortField);
+            if ("desc".equalsIgnoreCase(sortOrder)) {
+                sort = sort.descending();
+            } else {
+                sort = sort.ascending();
+            }
+
+            Pageable pageable = PageRequest.of(page, size, sort);
+
+            return userRepository.findByFullnameContainingAndRoleName(name,RoleName.USER, pageable);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return Page.empty(); // Return an empty page in case of an error
+        }
+
+    }
 }

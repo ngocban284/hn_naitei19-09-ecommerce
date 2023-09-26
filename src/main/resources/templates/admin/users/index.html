@@ -1,0 +1,101 @@
+<div class="content-wrapper" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div th:replace="fragments/admin/base-layout"></div>
+    <section class="content" style="margin-left:50px; padding:20px">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title">User List</h3>
+                            <div class="d-flex">
+                                <form th:action="@{/admin/users/}" method="get">
+                                    <div class="input-group">
+                                        <input class="form-control border-end-0 border" type="search" placeholder="Search by Name" id="example-search-input" name="fullname" th:value="${fullname}">
+                                        <button class="btn btn-outline-secondary bg-white border-start-0 border ms-n5" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th class="col-1">Avatar</th>
+                                    <th class="col-2">Fullname</th>
+                                    <th class="col-2">Email</th>
+                                    <th class="col-3">Address</th>
+                                    <th class="col-1">Phone</th>
+                                    <th class="col-1 text-center">Status</th>
+                                    <th class="col-1 text-center">Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user : ${users}">
+                                    <td>
+                                        <img th:src="${user.avatar}" alt="Avatar" width="50" height="50">
+                                    </td>
+                                    <td th:text="${user.fullname}"></td>
+                                    <td th:text="${user.email}"></td>
+                                    <td th:text="${user.address}"></td>
+                                    <td th:text="${user.phoneNumber}"></td>
+                                    <td class="text-center" th:switch="${user.accountStatus.getStatus()}">
+                                        <span class="badge bg-success" th:case="'ACTIVE'">Active</span>
+                                        <span class="badge bg-secondary" th:case="'INACTIVE'">Inactive</span>
+                                        <span class="badge bg-light" th:case="*">Unknown</span>
+                                    </td>
+                                    <td class="text-center">
+
+                                        <a class="btn btn-primary" th:if="${user.accountStatus.getStatus() == 'INACTIVE'}" th:href="@{'/admin/activate-user/' + ${user.id}}">
+                                            Active
+                                        </a>
+                                        <a class="btn btn-danger" th:if="${user.accountStatus.getStatus() == 'ACTIVE'}" th:href="@{'/admin/deactivate-user/' + ${user.id}}">
+                                            Ban
+                                        </a>
+                                    </td>
+
+
+                                </tr>
+                                </tbody>
+                            </table>
+                            <div th:with="pageInfo=${usersPage}">
+                                <ul class="pagination">
+                                    <!-- Previous Page -->
+                                    <li th:if="${pageInfo.hasPrevious()}" class="page-item">
+                                        <a class="page-link"
+                                           th:href="@{${#httpServletRequest.requestURI}(page=${pageInfo.previousPageable().pageNumber})}">&laquo;</a>
+                                    </li>
+
+                                    <!-- Page Numbers -->
+                                    <li th:each="i : ${#numbers.sequence(0, pageInfo.totalPages - 1)}" class="page-item">
+                                        <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(page=${i},  fullname=${fullname})}"
+                                           th:text="${i + 1}"></a>
+                                    </li>
+
+                                    <!-- Next Page -->
+                                    <li th:if="${pageInfo.hasNext()}" class="page-item">
+                                        <a class="page-link"
+                                           th:href="@{${#httpServletRequest.requestURI}(page=${pageInfo.nextPageable().pageNumber})}">&raquo;</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+        <!-- /.container -->
+    </section>
+
+
+</div>
+
+</html>
