@@ -1,6 +1,6 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.DTO.UserRegistrationDto;
+import com.example.ecommerce.dto.UserRegistrationDto;
 import com.example.ecommerce.model.User;
 import org.springframework.data.domain.Page;
 

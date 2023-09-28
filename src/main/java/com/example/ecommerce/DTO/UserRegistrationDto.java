@@ -1,4 +1,4 @@
-package com.example.ecommerce.DTO;
+package com.example.ecommerce.dto;
 
 public class UserRegistrationDto {
     private String name;

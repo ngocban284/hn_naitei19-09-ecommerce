@@ -1,14 +1,14 @@
 package com.example.ecommerce.model;
 
 import javax.persistence.*;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "Products")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
@@ -40,11 +40,11 @@ public class Product {
     private boolean isActive;
 
     // Getters and setters
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
