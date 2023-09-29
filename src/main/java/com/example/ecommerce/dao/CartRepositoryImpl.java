@@ -19,4 +19,9 @@ public class CartRepositoryImpl {
         entityManager.persist(cart);
         return cart;
     }
+
+    public Cart findByUserId(Long userID) {
+        return entityManager.find(Cart.class, userID);
+    }
+
 }

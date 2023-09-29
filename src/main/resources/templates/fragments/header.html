@@ -34,10 +34,13 @@
                         </a>
                         <button th:unless="${user!=null} and ${user.role == 'ROLE_ADMIN'}" data-bs-toggle="modal" data-bs-target="#cart-modal"
                                 class="btn btn-light">
-                            <i class="fa fa-shopping-cart"></i> <span class="ms-1">My
-									cart <span
-                                    class="badge primary-background text-white cart-items">1</span>
-								</span>
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="ms-1">
+                                    <a th:href="@{/cart}" class="btn btn-light">
+                                        My Cart
+                                    </a>
+                                    <span class="badge primary-background text-white cart-items">1</span>
+                            </span>
                         </button>
                         <a th:href="@{/my-orders}" class="btn btn-light">
                             <i class="fa fa-shopping-bag"></i> <span class="ms-1">My Orders</span>

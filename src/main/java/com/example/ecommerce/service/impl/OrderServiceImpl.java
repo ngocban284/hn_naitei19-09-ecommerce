@@ -3,6 +3,8 @@ package com.example.ecommerce.service.impl;
 import com.example.ecommerce.dao.OrderDetailRepository;
 import com.example.ecommerce.dao.OrderRepository;
 import com.example.ecommerce.dao.StatusRepository;
+import com.example.ecommerce.dao.CartRepository;
+import com.example.ecommerce.dao.CartDetailRepository;
 import com.example.ecommerce.model.*;
 import com.example.ecommerce.service.OrderService;
 import org.apache.log4j.Logger;
@@ -22,13 +24,21 @@ import java.util.List;
 public class OrderServiceImpl implements OrderService {
     private static final Logger logger = Logger.getLogger(OrderServiceImpl.class);
     @Autowired
+    private CartRepository cartRepository;
+
+    @Autowired
+    private CartDetailRepository cartDetailRepository;
+
+    @Autowired
     private OrderRepository orderRepository;
 
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
+
     @Autowired
     private StatusRepository statusRepository;
+
 
     @Override
     public List<Order> findAll() {
@@ -120,6 +130,89 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+
+
+    @Override
+    @Transactional
+    public Order placeOrder(User user ,Order orderRequest,List<Long> cartDetailIds,Double total) {
+//        System.out.println("user: " + user);
+//                System.out.println("fullname: " + fullname);
+//                System.out.println("phoneNumber: " + phoneNumber);
+//                System.out.println("address: " + address);
+//                System.out.println("note: " + note);
+//                System.out.println("status: " + status);
+//                System.out.println("total: " + total);
+//                System.out.println("cartDetailIds: " + cartDetailIds);
+        System.out.println("orderRequest: " + orderRequest.getPaymentMethod());
+
+        // get cart by user id
+        Cart cart = cartRepository.findByUserId(user.getId());
+
+//        System.out.println("cc1");
+        // if cart is null, return null
+        if (cart == null) {
+            return null;
+        }
+
+       // get all cart detail by cart id
+        List<CartDetail> cartDetailList = cartDetailRepository.findByCartId(cart.getId());
+        // get cartDetail by cartDetailIds
+        List<CartDetail> cartDetailOrders = cartDetailRepository.findByIds(cartDetailIds);
+
+
+        // if cart detail list is null, return null
+        if (cartDetailList == null) {
+            return null;
+        }
+
+        // if cartDetailOrders is null, return null
+        if (cartDetailOrders == null) {
+            return null;
+        }
+
+        // check cartDetailOrders have in cartDetailList
+        for (CartDetail cartDetailOrder : cartDetailOrders) {
+            if (!cartDetailList.contains(cartDetailOrder)) {
+                return null;
+            }
+        }
+
+        // check total is true cartDetailOrders
+        Double totalMoney = 0.0;
+        for (CartDetail cartDetailOrder : cartDetailOrders) {
+            totalMoney += cartDetailOrder.getPrice();
+        }
+
+        if (!totalMoney.equals(total)) {
+            return null;
+        }
+
+        Order order = new Order();
+        order.setUser(user);
+        order.setFullname(orderRequest.getFullname());
+        order.setPhoneNumber(orderRequest.getPhoneNumber());
+        order.setAddress(orderRequest.getAddress());
+        order.setNote (orderRequest.getNote());
+        order.setStatus(orderRequest.getStatus());
+        order.setTotal(total);
+        order.setPaymentMethod(orderRequest.getPaymentMethod());
+        // auto gen order code string type
+        String orderCode = "OD" + System.currentTimeMillis();
+        order.setOrderCode(orderCode);
+
+        order = orderRepository.save(order);
+
+        for (CartDetail cartDetail : cartDetailOrders) {
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.setOrder(order);
+            orderDetail.setProduct(cartDetail.getProduct());
+            orderDetail.setAmount(cartDetail.getAmount());
+            orderDetail.setPrice(cartDetail.getProduct().getPrice());
+            orderDetail.setTotalMoney(total);
+            orderDetailRepository.save(orderDetail);
+        }
+        return order;
+    }
 
 
 }
