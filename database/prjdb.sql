@@ -55,13 +55,14 @@ CREATE TABLE Orders (
   address VARCHAR(200),
   note VARCHAR(200),
   total DECIMAL(20, 2),
+  payment_method ENUM('COD', 'ONLINE'),
+  order_code VARCHAR(100),
   order_date DATE,
   status int,
   reason VARCHAR(200),
   FOREIGN KEY (status) REFERENCES Status(id),
   FOREIGN KEY (user_id) REFERENCES Users(id)
 );
-
 
 
 CREATE TABLE Order_detail (

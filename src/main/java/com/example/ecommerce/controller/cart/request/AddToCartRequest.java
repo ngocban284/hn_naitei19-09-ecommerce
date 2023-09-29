@@ -2,12 +2,15 @@ package com.example.ecommerce.controller.cart.request;
 
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.model.Product;
+// get user from session
+import javax.servlet.http.HttpSession;
 
 public class AddToCartRequest {
     private User user;
     private Product product;
     private int amount;
 
+    private Long productId;
     // Getters and setters
 
     public User getUser() {
@@ -20,6 +23,19 @@ public class AddToCartRequest {
 
     public Product getProduct() {
         return product;
+    }
+
+    public Long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Long productId) {
+        this.productId = productId;
+    }
+
+    // get user from session
+    public User getUserFromSession(HttpSession session) {
+        return (User) session.getAttribute("user");
     }
 
     public void setProduct(Product product) {

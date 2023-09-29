@@ -6,9 +6,10 @@ import com.example.ecommerce.model.Product;
 import com.example.ecommerce.model.User;
 import com.example.ecommerce.dao.CartDetailRepository;
 import com.example.ecommerce.dao.CartRepository;
+import com.example.ecommerce.dao.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import  java.util.List;
 @Service
 public class CartService {
 
@@ -17,6 +18,13 @@ public class CartService {
 
     @Autowired
     private CartDetailRepository cartDetailRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    public Cart findByUserId(Long userID) {
+        return cartRepository.findByUserId(userID);
+    }
 
     public Cart addItemToCart(User user, Product product, int amount) {
         // Kiểm tra xem người dùng đã có giỏ hàng hay chưa
@@ -49,6 +57,56 @@ public class CartService {
         return cartRepository.save(cart);
     }
 
+    public Cart addItemToCartByProductId(User user,long Id,int amount){
+
+        Product product = productRepository.findById(Id).orElse(null);
+
+        // Kiểm tra tồn tại sản phẩm trong product hay không
+        if (product == null) {
+            return null;
+        }
+
+        // Kiểm tra xem người dùng đã có giỏ hàng hay chưa
+        Cart cart = cartRepository.findByUser(user);
+
+        if (cart == null) {
+            cart = new Cart();
+            cart.setUser(user);
+
+            // Lưu giỏ hàng
+            cart = cartRepository.save(cart);
+        }
+
+        Long CartId = cart.getId();
+
+
+        // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+        boolean productExistsInCart = cartDetailRepository.existsByProductIdAndCartId(product.getId(), CartId);
+
+        if (productExistsInCart) {
+            // Sản phẩm đã tồn tại trong giỏ hàng, cập nhật số lượng
+            CartDetail cartDetail = cartDetailRepository.findByProductIdAndCartId(product.getId(), CartId);
+            cartDetail.setAmount(cartDetail.getAmount() + amount);
+
+            // Price = price * amount
+            cartDetail.setPrice(product.getPrice() * cartDetail.getAmount());
+
+        } else {
+            // Sản phẩm chưa tồn tại trong giỏ hàng, tạo mới chi tiết giỏ hàng
+            CartDetail cartDetail = new CartDetail();
+            cartDetail.setCart(cart);
+            cartDetail.setAmount(amount);
+            cartDetail.setProduct(product);
+            cartDetail.setPrice(product.getPrice());
+            cartDetailRepository.save(cartDetail);
+        }
+
+        // Lưu giỏ hàng
+        return cartRepository.save(cart);
+    }
+
+
+
     public Cart updateCartItem(CartDetail cartDetail, int amount) {
         // Cập nhật số lượng sản phẩm trong chi tiết giỏ hàng
         cartDetail.setAmount(amount);
@@ -64,4 +122,44 @@ public class CartService {
         // Xóa sản phẩm khỏi giỏ hàng
         cartDetailRepository.delete(cartDetail);
     }
+
+    // remove product in cart by product id
+    public void removeProductInCartByProductId(User user,Long productId) {
+
+        Product product = productRepository.findById(productId).orElse(null);
+
+        if (product == null) {
+            return;
+        }
+
+        Cart cart = cartRepository.findByUser(user);
+        if (cart == null) {
+            return;
+        }
+        Long cartId = cart.getId();
+       // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+        boolean productExistsInCart = cartDetailRepository.existsByProductIdAndCartId(product.getId(), cartId);
+
+        if (productExistsInCart) {
+            // Sản phẩm đã tồn tại trong giỏ hàng và số lượng > 1
+            CartDetail cartDetail = cartDetailRepository.findByProductIdAndCartId(productId, cartId);
+            if (cartDetail.getAmount() > 1) {
+                cartDetail.setAmount(cartDetail.getAmount() - 1);
+                cartDetail.setPrice(cartDetail.getPrice() - cartDetail.getProduct().getPrice());
+
+                cartDetailRepository.save(cartDetail);
+
+            } else {
+                // Sản phẩm đã tồn tại trong giỏ hàng và số lượng = 1 , xóa productInCart
+                cartDetailRepository.delete(cartDetail);
+            }
+
+        }
+    }
+
+
+    // get all cart detail by cart id
+//    public List<CartDetail> findCartDetailByCartId(Long cartId) {
+//        return cartDetailRepository.findByCartId(cartId);
+//    }
 }

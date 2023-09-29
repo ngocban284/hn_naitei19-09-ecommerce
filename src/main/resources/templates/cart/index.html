@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<div th:replace="fragments/base-layout :: html_head(title='My Cart')"></div>
+<body>
+<div th:replace="fragments/base-layout :: header"></div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>My Cart</h2>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Select</th> <!-- Thêm cột Actions -->
+                    <th>STT</th>
+                    <th>Product Category</th>
+                    <th>Product Name</th>
+                    <th>Product Amount</th>
+                    <th>Total value</th>
+                    <th>Actions</th> <!-- Thêm cột Actions -->
+                </tr>
+                </thead>
+                <tbody class="cart-table">
+                <tr th:each="cartDetail, rowStat : ${cartDetails}">
+                    <td>
+                        <!-- Thêm hộp kiểm cho từng sản phẩm -->
+                        <input type="checkbox" th:id="'checkbox-' + ${cartDetail.product.id}" class="product-checkbox">
+                    </td>
+                    <td th:text="${rowStat.count}"></td>
+                    <td th:text="${cartDetail.product.category.name}"></td>
+                    <td th:text="${cartDetail.product.name}"></td>
+                    <td th:text="${cartDetail.amount}"></td>
+                    <td th:text="${cartDetail.price}"></td>
+
+                    <td>
+                        <!-- Thêm nút "Add" và "Remove" -->
+                        <button th:onclick="'javascript:addItemToCart(\'' + ${cartDetail.product.id} + '\')'" class="btn btn-primary">Add</button>
+                        <button th:onclick="'javascript:removeItemFromCart(\'' + ${cartDetail.product.id} + '\')'" class="btn btn-danger">Remove</button>
+                    </td>
+                </tr>
+
+                </tbody>
+                <thead>
+                <tbody class="cart-table">
+                    <tr>
+                        <td colspan="5" class="text-right">Total</td>
+                        <td th:text="${total} + ' $'"></td>
+                        <td class="text-right">
+                            <button onclick="placeOrder()" class="btn btn-success btn-block"> <!-- Sử dụng "btn-block" để tạo nút có chiều dài đầy đủ -->
+                                <i class="fas fa-shopping-cart mr-2"></i>
+                                Đặt hàng
+                            </button>
+                        </td>
+                    </tr>
+
+            </tbody>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/base-layout :: footer"></div>
+
+<!-- Đặt mã JavaScript trong một tệp riêng (ví dụ: cart.js) -->
+<script type="text/javascript" src="js/cart.js"></script>
+</body>
+</html>

@@ -38,4 +38,41 @@ public class CartDetailService {
     public void deleteCartDetail(CartDetail cartDetail) {
         cartDetailRepository.delete(cartDetail);
     }
+
+    //existsByProductIdAndCart
+    public boolean existsByProductIdAndCart(Long productId, Cart cart) {
+        return cartDetailRepository.existsByProductIdAndCart(productId, cart);
+    }
+
+//    /existsByProductIdAndCartId
+    public boolean existsByProductIdAndCartId(Long productId, Long cartId) {
+        return cartDetailRepository.existsByProductIdAndCartId(productId, cartId);
+    }
+
+    // findByProductIdAndCart
+//    public CartDetail findByProductIdAndCart(Long productId, Cart cart) {
+//        return cartDetailRepository.findByProductIdAndCart(productId, cart);
+//    }
+
+    // findByProductIdAndCartId
+    public CartDetail findByProductIdAndCartId(Long productId, Long cartId) {
+        return cartDetailRepository.findByProductIdAndCartId(productId, cartId);
+    }
+
+    // findByCartId
+    public List<CartDetail> findByCartId(Long cartId) {
+        return cartDetailRepository.findByCartId(cartId);
+    }
+
+
+    // getTotalPriceByCartDetailIds
+    public Double getTotalPriceByCartDetailIds(List<Long> cartDetailIds) {
+        return cartDetailRepository.getTotalPriceByCartDetailIds(cartDetailIds);
+    }
+
+    //getTotalPriceByCartId
+    public Double getTotalPriceByCartId(Long cartId) {
+        return cartDetailRepository.getTotalPriceByCartId(cartId);
+    }
+
 }

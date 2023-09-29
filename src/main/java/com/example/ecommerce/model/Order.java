@@ -2,6 +2,7 @@ package com.example.ecommerce.model;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -29,16 +30,30 @@ public class Order {
     @Column(name = "total", nullable = false)
     private double total;
 
+    @Column(name = "payment_method")
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
     @Column(name = "order_date", nullable = false)
-    private LocalDate orderDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date orderDate;
 
     @Column(name = "reason")
     private String reason;
 
+    @PrePersist
+    protected void onCreate() {
+        orderDate = new Date(); // Set thời gian tạo mới
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        orderDate = new Date(); // Khi cập nhật, updatedAt sẽ được cập nhật lại
+    }
+
     @ManyToOne
     @JoinColumn(name = "status", nullable = false)
     private Status status;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
@@ -99,11 +114,11 @@ public class Order {
         this.total = total;
     }
 
-    public LocalDate getOrderDate() {
+    public  Date getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(LocalDate orderDate) {
+    public void setOrderDate(Date orderDate) {
         this.orderDate = orderDate;
     }
 
@@ -133,6 +148,19 @@ public class Order {
 
     public String getOrderCode() {
         return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
+    }
+
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
 }

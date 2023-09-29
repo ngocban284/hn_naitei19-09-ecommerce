@@ -104,5 +104,4 @@ public class CartDetail {
         this.cart = cart;
     }
 
-
 }
