@@ -378,4 +378,197 @@ function showCancelConfirmation(buttonElement) {
                 });
         }
     });
+
 }
+
+
+// Function to add a product to the cart
+function addItemToCart(productId) {
+  // Test Only
+  user = {
+    id: 1,
+    fullname: "John Doe",
+    email: "john@example.com",
+  };
+
+  request = {
+    user: user,
+    productId: productId,
+  };
+
+  console.log(request);
+  // Gửi yêu cầu POST đến endpoint thích hợp với thông tin sản phẩm và người dùng
+  $.ajax({
+    url: "/cart/add", // Điều chỉnh URL dựa trên cấu hình của bạn
+    method: "POST",
+    data: JSON.stringify(request),
+    contentType: "application/json",
+    success: function (response) {
+      // Xử lý phản hồi thành công ở đây (ví dụ: cập nhật số lượng sản phẩm)
+      console.log("Product added to cart:", response);
+
+       // reload page
+         location.reload();
+
+    },
+    error: function (error) {
+      // Xử lý lỗi ở đây
+      console.error("Error adding product to cart:", error);
+    },
+  });
+}
+
+// Function to remove a product from the cart
+function removeItemFromCart(productId) {
+  var user = {
+    id: 1, // Thay đổi ID người dùng tùy theo tài khoản người dùng hiện tại
+    fullname: "John Doe",
+    email: "john@example.com",
+  };
+
+  var request = {
+    user: user,
+    productId: productId,
+  };
+  // Gửi yêu cầu DELETE đến endpoint thích hợp với thông tin sản phẩm và người dùng
+  $.ajax({
+    url: "/cart/remove", // Điều chỉnh URL dựa trên cấu hình của bạn
+    method: "DELETE",
+    data: JSON.stringify(request),
+    contentType: "application/json",
+    success: function () {
+      // Xử lý phản hồi thành công ở đây (ví dụ: cập nhật giỏ hàng sau khi xoá sản phẩm)
+      console.log("Product removed from cart:", productId);
+
+        // reload page
+            location.reload();
+    },
+    error: function (error) {
+      // Xử lý lỗi ở đây
+      console.error("Error removing product from cart:", error);
+    },
+  });
+}
+
+
+
+// Bắt đầu thêm sự kiện cho nút "Add" và "Remove" (đảm bảo HTML của bạn có các nút này với các hàm JavaScript được gắn vào sự kiện onclick)
+$(document).ready(function () {
+  // Thêm sản phẩm vào giỏ hàng khi nhấp vào nút "Add"
+  $("tbody.cart-table button.btn-primary").click(function () {
+    var productId = $(this).closest("tr").find("td[data-product-id]").data("product-id");
+    addItemToCart(productId);
+  });
+
+  // Xoá sản phẩm khỏi giỏ hàng khi nhấp vào nút "Remove"
+  $("tbody.cart-table button.btn-danger").click(function () {
+    var productId = $(this).closest("tr").find("td[data-product-id]").data("product-id");
+    removeItemFromCart(productId);
+  });
+});
+
+//
+function place (){
+//    console.log("Place order");
+    // Collect product ids from each row in the cart table
+     var cartDetailIds = [];
+     $(".cart-table tr[data-product-id]").each(function () {
+         var productId = $(this).data("product-id");
+         console.log("Product Id:", productId);
+         cartDetailIds.push(productId);
+     });
+//
+    // Get the total value
+        var total = $(".cart-total").text().trim();
+        // rusult look like this 4819.87 $
+        // remove $ sign and remove space
+        total = total.replace("$", "").trim();
+        console.log("Total:", total);
+//
+//
+//     // cartDetailIds parameter is required. myparam=myValue1&myparam=myValue2&myparam=myValue3
+     var cartDetailIdStrings = "";
+     for (var i = 0; i < cartDetailIds.length; i++) {
+         cartDetailIdStrings += `${cartDetailIds[i]}`;
+     }
+
+     // convert cartDetailIds to string. look like this "123"
+     cartDetailIdStrings = "\""+ cartDetailIdStrings + "\"";
+
+
+     var cartDetailIdParams = "cartDetailIds=" + cartDetailIdStrings;
+
+     var totalParam = "total=" + total;
+
+     var params = cartDetailIdParams + "&" + totalParam;
+
+     var redirectUrl = "/orders/place-orders?" + params;
+
+     console.log(redirectUrl);
+
+     // redirect to place order page
+       window.location.href = redirectUrl;
+};
+
+function placeOrder() {
+    // Lấy thông tin từ các input
+    var fullname = document.getElementById("fullname").value;
+    var phoneNumber = document.getElementById("phoneNumber").value;
+    var address = document.getElementById("address").value;
+    var note = document.getElementById("note").value;
+    var paymentMethod = document.getElementById("paymentMethod").value;
+    var total = document.getElementById("total").value;
+
+    // Lấy cartDetailIds từ bảng cart
+      var cartDetailIds = [];
+         $(".cart-table tr[data-cart-detail-id]").each(function () {
+             var cartId = $(this).data("cart-detail-id");
+             cartDetailIds.push(cartId);
+         });
+
+     if (fullname === "" || phoneNumber === "" || address === "" ) {
+                alert("Please fill in all required fields.");
+                return;
+     };
+
+    // Tạo JSON object
+    var orderData = {
+        "user": {
+            "id": 1
+        },
+        "order": {
+            "fullname": fullname,
+            "phoneNumber": phoneNumber,
+            "address": address,
+            "note": note,
+            "paymentMethod": paymentMethod,
+            "status": {
+                "id": 1
+            }
+        },
+        "cartDetailIds": cartDetailIds,
+        "total": parseFloat(total)
+    };
+
+    console.log(orderData);
+
+    // Gửi request đến server
+     $.ajax({
+       url: "/orders/place", // Điều chỉnh URL dựa trên cấu hình của bạn
+       method: "POST",
+       data: JSON.stringify(orderData),
+       contentType: "application/json",
+//
+         success: function (response) {
+            console.log("Order placed:", response);
+
+         },
+
+       error: function (error) {
+         console.error("Error placing order:", error);
+       },
+     });
+
+};
+
+

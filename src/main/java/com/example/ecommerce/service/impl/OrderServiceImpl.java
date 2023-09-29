@@ -143,12 +143,12 @@ public class OrderServiceImpl implements OrderService {
 //                System.out.println("status: " + status);
 //                System.out.println("total: " + total);
 //                System.out.println("cartDetailIds: " + cartDetailIds);
-        System.out.println("orderRequest: " + orderRequest.getPaymentMethod());
+        // System.out.println("orderRequest: " + orderRequest.getPaymentMethod());
 
         // get cart by user id
         Cart cart = cartRepository.findByUserId(user.getId());
 
-//        System.out.println("cc1");
+
         // if cart is null, return null
         if (cart == null) {
             return null;
@@ -158,6 +158,7 @@ public class OrderServiceImpl implements OrderService {
         List<CartDetail> cartDetailList = cartDetailRepository.findByCartId(cart.getId());
         // get cartDetail by cartDetailIds
         List<CartDetail> cartDetailOrders = cartDetailRepository.findByIds(cartDetailIds);
+
 
 
         // if cart detail list is null, return null
@@ -183,6 +184,10 @@ public class OrderServiceImpl implements OrderService {
             totalMoney += cartDetailOrder.getPrice();
         }
 
+        // System.out.println("totalMoney: " + totalMoney);
+        // System.out.println("total: " + total);
+        // System.out.println("cartDetailIds: " + cartDetailIds);
+        // System.out.println("cartDetailOrders: " + cartDetailOrders);
         if (!totalMoney.equals(total)) {
             return null;
         }
@@ -201,6 +206,7 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderCode(orderCode);
 
         order = orderRepository.save(order);
+//        System.out.println("order: " + order);
 
         for (CartDetail cartDetail : cartDetailOrders) {
             OrderDetail orderDetail = new OrderDetail();
@@ -210,6 +216,7 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setPrice(cartDetail.getProduct().getPrice());
             orderDetail.setTotalMoney(total);
             orderDetailRepository.save(orderDetail);
+//            System.out.println("orderDetail: " + orderDetail);
         }
         return order;
     }
