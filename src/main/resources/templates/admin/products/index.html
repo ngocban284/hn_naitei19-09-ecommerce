@@ -1,0 +1,102 @@
+<div class="content-wrapper" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div th:replace="fragments/admin/base-layout"></div>
+    <section class="content" style="margin-left:50px; padding:20px">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title"><a th:href="@{/admin/products/}">Products List</a> </h3>
+                            <div class="d-flex">
+                                <form th:action="@{/admin/products/}" method="get">
+                                    <div class="input-group">
+                                        <input class="form-control border-end-0 border" type="search" placeholder="Search by Name" id="example-search-input" name="name" th:value="${name}">
+                                        <button class="btn btn-outline-secondary bg-white border-start-0 border ms-n5" type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th class="col-3">Name</th>
+                                <th class="col-1">Category</th>
+                                <th class="col-1">Brand</th>
+                                <th class="col-1">Price</th>
+                                <th class="col-1">Buy count</th>
+                                <th class="col-1 text-center">Status</th>
+                                <th class="col-1 text-center">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="product : ${products}">
+                                <td th:text="${product.name}"></td>
+                                <td th:text="${product.category.name}"></td>
+                                <td th:text="${product.brand}"></td>
+                                <td th:text="${product.price}"></td>
+                                <td th:text="${product.buyCount}"></td>
+                                <td class="text-center" th:switch="${product.isActive}">
+                                    <span class="badge bg-success" th:case= "true">Active</span>
+                                    <span class="badge bg-danger" th:case="false">Inactive</span>
+                                </td>
+
+
+                                <td class="text-center">
+                                <a class="btn" th:href="@{'/admin/products/' + ${product.id}}"> <i
+                                        class="fas fa-eye text-primary"></i>
+                                </a>
+                                    <a th:if="${product.isActive}" class="btn" th:attr="data-id=${product.id}" onclick="confirmDelete(this)">
+                                        <i class="fas fa-trash-alt text-danger"></i>
+                                    </a>
+                                    <a th:if="${not product.isActive}" class="btn" th:attr="data-id=${product.id}" onclick="confirmActivate(this)">
+                                        <i class="fas fa-trash-restore text-success"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div th:with="pageInfo=${productsPage}">
+                            <ul class="pagination">
+                                <!-- Previous Page -->
+                                <li th:if="${pageInfo.hasPrevious()}" class="page-item">
+                                    <a class="page-link"
+                                       th:href="@{${#httpServletRequest.requestURI}(page=${pageInfo.previousPageable().pageNumber},  name=${name})}">&laquo;</a>
+                                </li>
+
+                                <!-- Page Numbers -->
+                                <li th:each="i : ${#numbers.sequence(0, pageInfo.totalPages - 1)}" class="page-item">
+                                    <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(page=${i},  name=${name})}"
+                                       th:text="${i + 1}"></a>
+                                </li>
+
+                                <!-- Next Page -->
+                                <li th:if="${pageInfo.hasNext()}" class="page-item">
+                                    <a class="page-link"
+                                       th:href="@{${#httpServletRequest.requestURI}(page=${pageInfo.nextPageable().pageNumber},  name=${name})}">&raquo;</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+
+        <!-- /.container -->
+    </section>
+
+
+</div>
+
+</html>

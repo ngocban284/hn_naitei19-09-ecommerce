@@ -35,6 +35,7 @@ CREATE TABLE Products (
   buy_count INT NOT NULL default 0,
   description VARCHAR(200),
   quantity INT NOT NULL ,
+  is_active BOOLEAN NOT NULL default true,
   FOREIGN KEY (category_id) REFERENCES Categories(id)
 );
 
