@@ -36,6 +36,9 @@ public class Product {
     @Column(name = "quantity", nullable = false)
     private int quantity;
 
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;
+
     // Getters and setters
     public Long getId() {
         return id;
@@ -107,6 +110,14 @@ public class Product {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public boolean isIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
     }
 
 

@@ -352,3 +352,54 @@ function confirmDeactivation(button) {
         }
     });
 }
+
+  function confirmDelete(element) {
+      var productId = element.getAttribute("data-id");
+      swal({
+              title: "Delete this product?",
+              icon: "warning",
+              buttons: true,
+              dangerMode: true,
+          })
+          .then((confirmation) => {
+              if (confirmation) {
+                  $.post('/admin/products/soft-delete/' + productId, function(data) {
+                      swal("Product delete successfully", {
+                          icon: "success",
+                      }).then(() => {
+                          location.reload(); // Reload the page
+                      });
+                  }).fail(function() {
+                      swal("Failed to delete product", {
+                          icon: "error",
+                      });
+                  });
+              }
+          });
+  }
+
+  function confirmActivate(element) {
+      var productId = element.getAttribute("data-id");
+       swal({
+                    title: "Active this product?",
+                    icon: "info",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((confirmation) => {
+                    if (confirmation) {
+                        $.post('/admin/products/active/' + productId, function(data) {
+                            swal("Product active successfully", {
+                                icon: "success",
+                            }).then(() => {
+                                location.reload(); // Reload the page
+                            });
+                        }).fail(function() {
+                            swal("Failed to active product", {
+                                icon: "error",
+                            });
+                        });
+                    }
+                });
+  }
+
