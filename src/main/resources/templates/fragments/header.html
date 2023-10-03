@@ -7,7 +7,7 @@
 			event.preventDefault();
 			var category = document.getElementById('categorySelect').value;
 			var searchInput = document.getElementById('searchInput').value;
-			var url = "/search" + "/category=" + encodeURIComponent(category) + "&keyword=" + encodeURIComponent(searchInput);
+			var url = "/search" + "/category=" + encodeURIComponent(category) + "&keyword=" + encodeURIComponent(searchInput)+ "&page=";
 			window.location.href = url;
 		});
 	</script>
@@ -60,9 +60,12 @@
 					<form action="/search">
 						<div class="input-group">
 							<select class="form-select" name="category">
+								<option value="1" selected>Mobile</option>
+								<option value="2" selected>Laptop</option>
+								<option value="3" selected>Tablet</option>
+								<option value="4" selected>Watch</option>
 								<option value="-1" selected>All Categories</option>
-								<option th:each="category : ${categories}" th:value="${category.id}"
-									th:text="${category.name}"></option>
+								
 							</select>
 							<input type="search" id="searchInput" name="keyword" class="form-control"
 								style="width: 35%;" placeholder="Search for product here">

@@ -21,9 +21,8 @@
 		}
 
 		.product_name {
-			font-size: 24px;
+			font-size: 100px;
 			font-weight: bold;
-			margin-bottom: 10px;
 			color: #2435f5;
 		}
 
@@ -80,12 +79,10 @@
 			</div>
 			<div class="col-lg-6">
 				<div class="row">
+					<h1>[(${product.name})]</h1>
+					<hr>
 					<div class="col-lg-12">
-						<div class="product_name">[(${product.name})]</div>
-						<div class="product_price">VND: [(${#numbers.formatDecimal(product.price, 0, 'COMMA', 0,
-							'POINT')})]</div>
-					</div>
-					<div class="col-lg-12">
+						<div class="product_price"> Giá: [(${product.price})] VND</div>
 						<div class="product_description">Brand: [(${product.brand})]</div>
 						<div class="product_description">Description: [(${product.description})]</div>
 						<div class="product_description">Stock: [(${product.quantity})]</div>
