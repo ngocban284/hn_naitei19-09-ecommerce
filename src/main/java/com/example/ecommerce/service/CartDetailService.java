@@ -40,12 +40,12 @@ public class CartDetailService {
     }
 
     //existsByProductIdAndCart
-    public boolean existsByProductIdAndCart(Long productId, Cart cart) {
+    public boolean existsByProductIdAndCart(Integer productId, Cart cart) {
         return cartDetailRepository.existsByProductIdAndCart(productId, cart);
     }
 
 //    /existsByProductIdAndCartId
-    public boolean existsByProductIdAndCartId(Long productId, Long cartId) {
+    public boolean existsByProductIdAndCartId(Integer productId, Long cartId) {
         return cartDetailRepository.existsByProductIdAndCartId(productId, cartId);
     }
 
@@ -55,7 +55,7 @@ public class CartDetailService {
 //    }
 
     // findByProductIdAndCartId
-    public CartDetail findByProductIdAndCartId(Long productId, Long cartId) {
+    public CartDetail findByProductIdAndCartId(Integer productId, Long cartId) {
         return cartDetailRepository.findByProductIdAndCartId(productId, cartId);
     }
 

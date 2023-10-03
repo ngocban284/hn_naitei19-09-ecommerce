@@ -1,19 +1,18 @@
 package com.example.ecommerce.service.impl;
 
-import com.example.ecommerce.dao.ProductRepository;
-import com.example.ecommerce.model.Product;
-import com.example.ecommerce.model.RoleName;
-import com.example.ecommerce.service.ProductService;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.example.ecommerce.dao.ProductRepository;
+import com.example.ecommerce.model.Product;
+import com.example.ecommerce.service.ProductService;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -22,16 +21,6 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
-
-    @Override
-    public List<Product> findAll() {
-        return null;
-    }
-
-    @Override
-    public Product findById(Long id) {
-        return null;
-    }
 
     @Override
     public Page<Product> searchByName(String name, int page, int size, String sortField, String sortOrder) {
@@ -77,4 +66,35 @@ public class ProductServiceImpl implements ProductService {
             logger.error("Product not found");
         }
     }
+    
+	@Override
+	public List<Product> getProducts() {
+		return productRepository.getProducts();
+	}
+
+	@Override
+	public List<Product> getProductsSortedByBuyCount() {
+		return productRepository.getProductsSortedByBuyCount();
+	}
+
+	@Override
+	public List<Product> getProductsByCategory(Integer categoryId) {
+		return productRepository.getProductsByCategory(categoryId);
+	}
+
+	@Override
+	public List<Product> searchAllCategories(String query) {
+		return productRepository.searchAllCategories(query);
+	}
+
+	@Override
+	public List<Product> searchByCategory(Integer categoryId, String query) {
+		return productRepository.searchByCategory(categoryId, query);
+	}
+
+	@Override
+	public Product getReferenceById(Integer id) {
+		return productRepository.getReferenceById(id);
+	}
+
 }

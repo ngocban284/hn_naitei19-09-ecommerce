@@ -1,6 +1,6 @@
 package com.example.ecommerce.service.impl;
 
-import com.example.ecommerce.DTO.UserRegistrationDto;
+import com.example.ecommerce.dto.UserRegistrationDto;
 import com.example.ecommerce.dao.RoleRepository;
 import com.example.ecommerce.dao.UserRepository;
 import com.example.ecommerce.exeptions.RegistrationException;

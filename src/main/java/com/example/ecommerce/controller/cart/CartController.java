@@ -77,9 +77,8 @@ public class CartController {
 
     @DeleteMapping("/remove")
     public ResponseEntity<Void> removeItemFromCart(@RequestBody RemoveFromCartRequest request) {
-
        User user = request.getUser();
-       Long Id = request.getProductId();
+       Integer Id = request.getProductId();
 
         cartService.removeProductInCartByProductId(user, Id);
 

@@ -1,46 +1,42 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:fragment="html_head">
+<head th:fragment="header">
 
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <!-- =========== -->
-    <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link rel="icon" type="image/x-icon" href="/images/logo.png">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/css/global.css">
-    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <link
-            href="/css/font.css?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap"
-            rel="stylesheet">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
-          integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc="
-          crossorigin="anonymous" />
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css"
-          integrity="sha512-pVCM5+SN2+qwj36KonHToF2p1oIvoU3bsqxphdOIWMYmgr4ZqD3t5DjKvvetKhXGc/ZG5REYTT6ltKfExEei/Q=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
-          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <script type="text/javascript" src="/js/script.js"></script>
-    <script type="text/javascript" src="/js/alerts.js"></script>
-    <script src="/js/sweet.alert.js"></script>
-    <meta charset="UTF-8" />
-    <title>[(${title})]</title>
+	<script type="text/javascript" src="/js/jquery.js"></script>
+	<!-- =========== -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+	<link rel="icon" type="image/x-icon" href="/images/logo.png">
+	<link rel="stylesheet" type="text/css" href="/css/main.css">
+	<link rel="stylesheet" type="text/css" href="/css/global.css">
+	<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link href="/css/font.css?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/5.3.45/css/materialdesignicons.css"
+		integrity="sha256-NAxhqDvtY0l4xn+YVa6WjAcmd94NNfttjNsDmNatFVc=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/boxicons/2.1.0/css/boxicons.min.css"
+		integrity="sha512-pVCM5+SN2+qwj36KonHToF2p1oIvoU3bsqxphdOIWMYmgr4ZqD3t5DjKvvetKhXGc/ZG5REYTT6ltKfExEei/Q=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<script type="text/javascript" src="/js/script.js"></script>
+	<script type="text/javascript" src="/js/alerts.js"></script>
+	<script src="/js/sweet.alert.js"></script>
+	<meta charset="UTF-8" />
+	<title>[(${title})]</title>
 </head>
+
 <body>
-<div id="content-wrap">
-    <nav th:fragment="header">
-    <div th:replace="fragments/header"></div>
-    </nav>
-    <footer th:fragment="footer" >
-        <div th:replace="fragments/footer"></div>
-    </footer>
-</div>
+	<div id="content-wrap">
+		<nav th:fragment="header">
+			<div th:replace="fragments/header"></div>
+		</nav>
+		<footer th:fragment="footer">
+			<div th:replace="fragments/footer"></div>
+		</footer>
+	</div>
 </body>
+
 </html>

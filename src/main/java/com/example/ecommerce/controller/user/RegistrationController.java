@@ -1,6 +1,6 @@
 package com.example.ecommerce.controller.user;
 
-import com.example.ecommerce.DTO.UserRegistrationDto;
+import com.example.ecommerce.dto.UserRegistrationDto;
 import com.example.ecommerce.exeptions.RegistrationException;
 import com.example.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
