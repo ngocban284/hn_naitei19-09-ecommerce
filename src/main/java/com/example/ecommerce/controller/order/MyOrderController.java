@@ -1,9 +1,11 @@
 package com.example.ecommerce.controller.order;
 
-import com.example.ecommerce.model.Order;
-import com.example.ecommerce.model.User;
+import com.example.ecommerce.model.*;
 import com.example.ecommerce.service.OrderService;
-import com.example.ecommerce.model.Status;
+import com.example.ecommerce.service.CartService;
+import com.example.ecommerce.service.CartDetailService;
+//import com.example.ecommerce.dao.CartDetailRepository;
+//import com.example.ecommerce.dao.ProductRepository;
 //import com.example.ecommerce.service.impl.OrderServiceImpl;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.example.ecommerce.controller.order.request.OrderRequest;
 import org.springframework.http.ResponseEntity;
-import com.example.ecommerce.model.CartDetail;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -22,6 +25,19 @@ public class MyOrderController {
         Long cancelStatusID = 5L;
         @Autowired
         private OrderService orderService;
+
+        @Autowired
+        private CartService cartService;
+
+        @Autowired
+        private CartDetailService cartDetailService;
+
+//        @Autowired
+//        private CartDetailRepository cartDetailRepository;
+//
+//        @Autowired
+//        private ProductRepository productRepository;
+
 //        @RequestMapping("/my-orders")
         public String index(Model map) {
             List<Order> orders = orderService.findByUserId(userID);
@@ -29,7 +45,51 @@ public class MyOrderController {
             return "user/orders/index";
         }
 
-        @GetMapping("/my-orders/{code}")
+//        @RequestMapping("/place-orders")
+//        public String placeOrder(Model map,@RequestParam("cartDetailIds") Long[] cartDetailIds,
+//                                 @RequestParam("total") double total) {
+//            List<Order> orders = orderService.findByUserId(userID);
+//
+//            System.out.println("cartDetailIds: " + cartDetailIds);
+//            System.out.println("total: " + total);
+//
+//            map.addAttribute("orders" , orders);
+//
+//            return "user/orders/place/index";
+//        }
+        @RequestMapping("/place-orders")
+        public String placeOrder(Model map,
+                                 @RequestParam("cartDetailIds") String cartDetailIds,
+                                 @RequestParam("total") double total,@RequestParam("userId")  Long userId) {
+//            List<Order> orders = orderService.findByUserId(userID);
+            Cart cart = cartService.findByUserId(userId);
+            List<CartDetail> cartDetails = cartDetailService.findByCartId(cart.getId());
+
+            // use assosiation to get product from cartDetail
+            for (CartDetail cartDetail : cartDetails) {
+                Product product = cartDetail.getProduct();
+                cartDetail.setProduct(product);
+            }
+
+            // cartDetailIds look like "123"
+            // remove " and get list of cartDetailIds
+            cartDetailIds = cartDetailIds.replace("\"", "");
+            // now cartDetailIds look like 123. get 1,2,3 to list
+            List<Long> cartDetailIdsList = new ArrayList<>();
+            for (int i = 0; i < cartDetailIds.length(); i++) {
+                cartDetailIdsList.add(Long.parseLong(String.valueOf(cartDetailIds.charAt(i))));
+            }
+
+
+//            map.addAttribute("orders", orders);
+            map.addAttribute("cartDetailIds", cartDetailIdsList);
+            map.addAttribute("cartDetails", cartDetails);
+            map.addAttribute("total", total);
+            return "user/orders/place/index";
+        }
+
+
+    @GetMapping("/my-orders/{code}")
         public String getOrderDetail(Model model, @PathVariable("code") String code) {
             Order order = orderService.findOrderByOrderCode(code);
             model.addAttribute("orderDetails", order.getOrderDetails());
