@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.example.ecommerce.config.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,10 +28,20 @@ public class ProductController {
 	private CategoryService categoryService;
 
 	@GetMapping("categories/{categoryId}/products")
+//<<<<<<< HEAD
+//	public String index(@PathVariable(name = "categoryId") Integer categoryId, Model model, HttpSession session,
+//			HttpServletResponse response) throws IOException {
+//
+//=======
 	public String index(@PathVariable(name = "categoryId") Integer categoryId,
-			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model, HttpServletResponse response)
+			@RequestParam(value = "page", defaultValue = "1") Integer page, Model model, HttpServletResponse response, HttpSession session)
 			throws IOException {
-
+		if (categoryId == null) {
+			response.sendRedirect("/404-page");
+			String errorMessage = "Không tìm thấy sản phẩm";
+			model.addAttribute("errorMessage", errorMessage);
+			return "error";
+		}
 		int pageSize = 8;
 		Integer currentPage;
 		if (page != null) {
@@ -39,12 +51,8 @@ public class ProductController {
 		}
 		List<Product> products;
 		int startIndex = (currentPage - 1) * pageSize;
-		if (categoryId == null) {
-			response.sendRedirect("/404-page");
-			String errorMessage = "Không tìm thấy sản phẩm";
-			model.addAttribute("errorMessage", errorMessage);
-			return "error";
-		}
+		UserDetailsImpl currentUser = (UserDetailsImpl) session.getAttribute("currentUser");
+		model.addAttribute("user", currentUser);
 		products = this.productService.getProductsByCategory(categoryId);
 		int endIndex = Math.min(startIndex + pageSize, products.size());
 		List<Product> productsOnPage = products.subList(startIndex, endIndex);
@@ -208,7 +216,7 @@ public class ProductController {
 			}
 		}
 		return order;
-		
+
 	}
 
 }
