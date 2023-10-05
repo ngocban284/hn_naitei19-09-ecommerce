@@ -41,7 +41,7 @@ public class ProductsController {
     }
 
     @PostMapping("/soft-delete/{productId}")
-    public ResponseEntity<String> softDeleteProduct(@PathVariable Long productId) {
+    public ResponseEntity<String> softDeleteProduct(@PathVariable Integer productId) {
         try {
             productService.softDeleteProduct(productId);
             return ResponseEntity.ok("Product deleted successfully.");
@@ -52,7 +52,7 @@ public class ProductsController {
     }
 
     @PostMapping("/active/{productId}")
-    public ResponseEntity<String> activeProduct(@PathVariable Long productId) {
+    public ResponseEntity<String> activeProduct(@PathVariable Integer productId) {
         try {
             productService.activeProduct(productId);
             return ResponseEntity.ok("Product active successfully.");

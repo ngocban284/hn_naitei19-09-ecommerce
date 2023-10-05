@@ -1,9 +1,8 @@
 <!-- orderDetails.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <div th:replace="fragments/base-layout :: html_head(title='Orders Detail')"></div>
-</head>
+
+<!--    <div th:replace="fragments/base-layout :: header(title='Orders Detail')"></div>-->
 <body>
 <div th:replace="fragments/base-layout :: header"></div>
 <div class="container mt-5">
@@ -26,8 +25,8 @@
                                             <div class="row">
                                                 <div class="col-md-2">
 <!--                                                    add pict to here-->
-                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/13.webp"
-                                                         class="img-fluid" alt="Phone">
+                                                    <img th:src="${orderDetail.product.image}"
+                                                         class="img-fluid" th:alt="${orderDetail.product.category.getName()}">
                                                 </div>
                                                 <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                                     <p class="text-muted mb-0" th:text="${orderDetail.product.name}"></p>

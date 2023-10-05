@@ -18,4 +18,7 @@ public interface UserService extends BaseService<Long, User> {
 
     boolean activateUser(Long userId);
 
+    // get user by id
+    User findById(Long id);
+
 }

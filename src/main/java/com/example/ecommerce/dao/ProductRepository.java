@@ -65,8 +65,9 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 	List<Product> sortByPrice(@Param("categoryId") Integer categoryId, @Param("keyword") String keyword);
 	
 	
-	public Optional<Product> findById(long id);
+//	public Optional<Product> findById(int id);
 
+//	Product findById(int id);
 
     boolean existsById(Long id);
 

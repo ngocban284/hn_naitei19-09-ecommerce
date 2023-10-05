@@ -15,6 +15,9 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     Cart findByUser(User user);
 
+//    Cart findByUserId(Long userID);
+    // findByUserId
+    @Query(value = "select * from carts where user_id = ?1", nativeQuery = true)
     Cart findByUserId(Long userID);
 
     boolean existsByUser(User user);

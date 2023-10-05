@@ -10,7 +10,7 @@ public class AddToCartRequest {
     private Product product;
     private int amount;
 
-    private Long productId;
+    private Integer productId;
     // Getters and setters
 
     public User getUser() {
@@ -25,11 +25,11 @@ public class AddToCartRequest {
         return product;
     }
 
-    public Long getProductId() {
+    public Integer getProductId() {
         return productId;
     }
 
-    public void setProductId(Long productId) {
+    public void setProductId(Integer productId) {
         this.productId = productId;
     }
 

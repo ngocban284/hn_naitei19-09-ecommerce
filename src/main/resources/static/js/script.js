@@ -369,7 +369,7 @@ function showCancelConfirmation(buttonElement) {
     .then((reason) => {
         if (reason) {
             // Send the reason to the backend to save to the database
-            $.post('/cancel-order/' + dataId, { reason: reason })
+            $.post('orders/cancel-order/' + dataId, { reason: reason })
                 .done(function(response) {
                     swal('Order Cancelled!', 'The order has been cancelled.', 'success').then(() => {location.reload();});
                 })
@@ -385,14 +385,14 @@ function showCancelConfirmation(buttonElement) {
 // Function to add a product to the cart
 function addItemToCart(productId) {
   // Test Only
-  user = {
-    id: 1,
-    fullname: "John Doe",
-    email: "john@example.com",
-  };
+//  user = {
+//    id: 1,
+//    fullname: "John Doe",
+//    email: "john@example.com",
+//  };
 
   request = {
-    user: user,
+//    user: user,
     productId: productId,
   };
 
@@ -420,14 +420,14 @@ function addItemToCart(productId) {
 
 // Function to remove a product from the cart
 function removeItemFromCart(productId) {
-  var user = {
-    id: 1, // Thay đổi ID người dùng tùy theo tài khoản người dùng hiện tại
-    fullname: "John Doe",
-    email: "john@example.com",
-  };
+//  var user = {
+//    id: 1, // Thay đổi ID người dùng tùy theo tài khoản người dùng hiện tại
+//    fullname: "John Doe",
+//    email: "john@example.com",
+//  };
 
   var request = {
-    user: user,
+//    user: user,
     productId: productId,
   };
   // Gửi yêu cầu DELETE đến endpoint thích hợp với thông tin sản phẩm và người dùng
@@ -533,9 +533,7 @@ function placeOrder() {
 
     // Tạo JSON object
     var orderData = {
-        "user": {
-            "id": 1
-        },
+
         "order": {
             "fullname": fullname,
             "phoneNumber": phoneNumber,
@@ -561,6 +559,9 @@ function placeOrder() {
 //
          success: function (response) {
             console.log("Order placed:", response);
+
+            // redirect to home
+            window.location.href = "/";
 
          },
 

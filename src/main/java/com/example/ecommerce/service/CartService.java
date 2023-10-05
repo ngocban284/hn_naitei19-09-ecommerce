@@ -24,6 +24,8 @@ public class CartService {
 	private ProductRepository productRepository;
 
 	public Cart findByUserId(Long userID) {
+//		System.out.println("userID: " + userID);
+//		System.out.println("cartRepository.findByUserId(userID): " + cartRepository.findByUserId(userID));
 		return cartRepository.findByUserId(userID);
 	}
 
@@ -58,9 +60,10 @@ public class CartService {
 		return cartRepository.save(cart);
 	}
 
-	public Cart addItemToCartByProductId(User user, long Id, int amount) {
+	public Cart addItemToCartByProductId(User user, int Id, int amount) {
 
 		Product product = productRepository.findById(Id).orElse(null);
+		System.out.println("product: " + product);
 
 		// Kiểm tra tồn tại sản phẩm trong product hay không
 		if (product == null) {
@@ -69,6 +72,7 @@ public class CartService {
 
 		// Kiểm tra xem người dùng đã có giỏ hàng hay chưa
 		Cart cart = cartRepository.findByUser(user);
+//		System.out.println("cart: " + cart);
 
 		if (cart == null) {
 			cart = new Cart();

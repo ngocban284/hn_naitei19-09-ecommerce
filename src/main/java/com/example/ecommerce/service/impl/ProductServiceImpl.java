@@ -46,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void softDeleteProduct(Long productId) {
+    public void softDeleteProduct(Integer productId) {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
             product.setIsActive(false);
@@ -57,7 +57,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void activeProduct(Long productId) {
+    public void activeProduct(Integer productId) {
         Product product = productRepository.findById(productId).orElse(null);
         if (product != null) {
             product.setIsActive(true);

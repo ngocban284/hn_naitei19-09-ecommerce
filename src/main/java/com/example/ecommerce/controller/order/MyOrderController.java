@@ -5,6 +5,7 @@ import com.example.ecommerce.model.*;
 import com.example.ecommerce.service.OrderService;
 import com.example.ecommerce.service.CartService;
 import com.example.ecommerce.service.CartDetailService;
+import com.example.ecommerce.service.UserService;
 //import com.example.ecommerce.dao.CartDetailRepository;
 //import com.example.ecommerce.dao.ProductRepository;
 //import com.example.ecommerce.service.impl.OrderServiceImpl;
@@ -23,13 +24,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/orders")
 public class MyOrderController {
-        Long userID = 2L;  // Refactor later
         Long cancelStatusID = 5L;
         @Autowired
         private OrderService orderService;
 
         @Autowired
         private CartService cartService;
+
+        @Autowired
+        private UserService userService;
 
         @Autowired
         private CartDetailService cartDetailService;
@@ -42,9 +45,9 @@ public class MyOrderController {
 
         @RequestMapping("/my-orders")
         public String index(Model map, HttpSession session) {
-            List<Order> orders = orderService.findByUserId(userID);
-            map.addAttribute("orders" , orders);
             UserDetailsImpl currentUser = (UserDetailsImpl) session.getAttribute("currentUser");
+            List<Order> orders = orderService.findByUserId(currentUser.getId());
+            map.addAttribute("orders" , orders);
             map.addAttribute("user", currentUser);
             return "user/orders/index";
         }
@@ -64,9 +67,11 @@ public class MyOrderController {
         @RequestMapping("/place-orders")
         public String placeOrder(Model map,
                                  @RequestParam("cartDetailIds") String cartDetailIds,
-                                 @RequestParam("total") double total,@RequestParam("userId")  Long userId) {
-//            List<Order> orders = orderService.findByUserId(userID);
-            Cart cart = cartService.findByUserId(userId);
+                                 @RequestParam("total") double total,HttpSession session) {
+            UserDetailsImpl currentUser = (UserDetailsImpl) session.getAttribute("currentUser");
+
+//            User user1 = userService.findById(currentUser.getId());
+            Cart cart = cartService.findByUserId(currentUser.getId());
             List<CartDetail> cartDetails = cartDetailService.findByCartId(cart.getId());
 
             // use assosiation to get product from cartDetail
@@ -94,24 +99,33 @@ public class MyOrderController {
 
 
     @GetMapping("/my-orders/{code}")
-        public String getOrderDetail(Model model, @PathVariable("code") String code) {
+        public String getOrderDetail(Model model, @PathVariable("code") String code, HttpSession session) {
+            UserDetailsImpl currentUser = (UserDetailsImpl) session.getAttribute("currentUser");
             Order order = orderService.findOrderByOrderCode(code);
+            System.out.println("order: " + order);
             model.addAttribute("orderDetails", order.getOrderDetails());
+            model.addAttribute("user", currentUser);
             model.addAttribute("orderTotal", order.getTotal());
             model.addAttribute("status", order.getStatus().getDescription().getStatus());
             return "user/orders/detail/index";
         }
         @PostMapping("/cancel-order/{orderCode}")
         public String cancelOrder(@PathVariable("orderCode") String orderCode, @RequestParam("reason") String reason, Model model) {
+            System.out.println("orderCode: " + orderCode);
             Order order = orderService.findOrderByOrderCode(orderCode);
+            System.out.println("order: " + order);
             orderService.updateOrderStatus(order.getId(),cancelStatusID,reason);
+            System.out.println("reason: " + reason);
             return "redirect:/my-orders";
         }
 
         @PostMapping("/place")
-        public ResponseEntity<String> placeOrder(@RequestBody OrderRequest request) {
+        public ResponseEntity<String> placeOrder(@RequestBody OrderRequest request, HttpSession session) {
             try {
-                User user = request.getUser();
+//                User user = request.getUser();
+                UserDetailsImpl currentUser = (UserDetailsImpl) session.getAttribute("currentUser");
+                 User user1 = userService.findById(currentUser.getId());
+
                 Order orderRequest = request.getOrder();
                 Double total = request.getTotal();
                 List<Long> cartDetailIds = request.getCartDetailIds();
@@ -127,7 +141,7 @@ public class MyOrderController {
 //                 call orderService.placeOrder
 //                OrderServiceImpl orderService = new OrderServiceImpl();
 //                Order order = orderService.placeOrder(user, fullname, phoneNumber, address, note, status, cartDetailIds,total);
-                Order order = orderService.placeOrder(user,orderRequest, cartDetailIds,total);
+                Order order = orderService.placeOrder(user1,orderRequest, cartDetailIds,total);
 
                 return ResponseEntity.ok("Đặt hàng thành công");
 

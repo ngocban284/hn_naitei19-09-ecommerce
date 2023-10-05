@@ -1,8 +1,10 @@
 package com.example.ecommerce.controller.cart;
 
+import com.example.ecommerce.config.UserDetailsImpl;
 import com.example.ecommerce.model.*;
 import com.example.ecommerce.service.CartService;
 import  com.example.ecommerce.service.CartDetailService;
+import com.example.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ public class CartController {
     private CartService cartService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CartDetailService cartDetailService;
 
     @Autowired
@@ -32,8 +37,11 @@ public class CartController {
 
     @RequestMapping("/my-cart")
     // get cart by user id
-    public String showCartOfUser(Model map, @RequestParam("id") Long userID) {
-        Cart cart = cartService.findByUserId(userID);
+    public String showCartOfUser(Model map, HttpSession session) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) session.getAttribute("currentUser");
+
+//        User user1 = userService.findById(currentUser.getId());
+        Cart cart = cartService.findByUserId(currentUser.getId());
 
         List<CartDetail> cartDetails = cartDetailService.findByCartId(cart.getId());
 
@@ -53,12 +61,16 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<Cart> addItemToCart(@RequestBody AddToCartRequest request, HttpSession session) {
 //        User user = request.getUserFromSession(session);
-        User user = request.getUser(); // for test only
-        Long Id = request.getProductId();
+//        User user = request.getUser(); // for test only
+        UserDetailsImpl currentUser = (UserDetailsImpl) session.getAttribute("currentUser");
+
+        User user1 = userService.findById(currentUser.getId());
+
+        Integer Id = request.getProductId();
         int amount = 1;
 
 
-        Cart updatedCart = cartService.addItemToCartByProductId(user, Id, amount);
+        Cart updatedCart = cartService.addItemToCartByProductId(user1, Id, amount);
 
         return ResponseEntity.ok(updatedCart);
     }
@@ -76,11 +88,14 @@ public class CartController {
     }
 
     @DeleteMapping("/remove")
-    public ResponseEntity<Void> removeItemFromCart(@RequestBody RemoveFromCartRequest request) {
-       User user = request.getUser();
+    public ResponseEntity<Void> removeItemFromCart(@RequestBody RemoveFromCartRequest request, HttpSession session) {
+        UserDetailsImpl currentUser = (UserDetailsImpl) session.getAttribute("currentUser");
+
+        User user1 = userService.findById(currentUser.getId());
+//       User user = request.getUser();
        Integer Id = request.getProductId();
 
-        cartService.removeProductInCartByProductId(user, Id);
+        cartService.removeProductInCartByProductId(user1, Id);
 
         return ResponseEntity.noContent().build();
     }

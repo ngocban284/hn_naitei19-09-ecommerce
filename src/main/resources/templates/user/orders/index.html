@@ -33,7 +33,7 @@
             </span>
           </td>
           <td th:class="detail-button">
-            <a th:href="@{ '/my-orders/' + ${order.orderCode}}" class="btn btn-info btn-sm"> View Detail </a>
+            <a th:href="@{ '/orders/my-orders/' + ${order.orderCode}}" class="btn btn-info btn-sm"> View Detail </a>
           </td>
           <td>
               <span th:if="${order.status.description.getStatus()} == 'PENDING'" class="d-flex align-items-center justify-content-center">

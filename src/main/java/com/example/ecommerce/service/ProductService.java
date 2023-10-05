@@ -35,8 +35,8 @@ public interface ProductService {
 
 	Product getReferenceById(Integer id);
 
-	void softDeleteProduct(Long productId);
+	void softDeleteProduct(Integer productId);
 
-	void activeProduct(Long productId);
+	void activeProduct(Integer productId);
 
 }
