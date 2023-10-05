@@ -30,9 +30,40 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
 	@Query(value = "SELECT * FROM products WHERE LOWER(name) LIKE %:query%", nativeQuery = true)
 	List<Product> searchAllCategories(@Param("query") String query);
+	
+	@Query(value = "SELECT * FROM products WHERE LOWER(name) LIKE CONCAT('%', LOWER(:query), '%') ORDER BY buy_count DESC", nativeQuery = true)
+	List<Product> sortResultsByBuyCount(@Param("query") String query);
+	
+	@Query(value = "SELECT *\r\n"
+			+ "FROM products\r\n"
+			+ "WHERE LOWER(name) LIKE %:query% \r\n"
+			+ "ORDER BY IF(:keyword = 'ASC', price, NULL) ASC,\r\n"
+			+ "         IF(:keyword = 'DESC', price, NULL) DESC", nativeQuery = true)
+	List<Product> sortResultsByPrice(@Param("query") String query, @Param("keyword") String keyword);
 
 	@Query(value = "SELECT * FROM products WHERE category_id = :categoryId AND LOWER(name) LIKE %:query%", nativeQuery = true)
 	List<Product> searchByCategory(@Param("categoryId") Integer categoryId, @Param("query") String query);
+	
+	@Query(value = "SELECT * FROM products WHERE category_id = :categoryId AND LOWER(name) LIKE %:query% ORDER BY buy_count DESC", nativeQuery = true)
+	List<Product> sortResultsByBuyCount(@Param("categoryId") Integer categoryId, @Param("query") String query);
+	
+	@Query(value = " SELECT *\r\n"
+			+ "FROM products\r\n"
+			+ "WHERE category_id = :categoryId AND LOWER(name) LIKE %:query%\r\n"
+			+ "ORDER BY IF(:keyword = 'ASC', price, NULL) ASC,\r\n"
+			+ "         IF(:keyword = 'DESC', price, NULL) DESC", nativeQuery = true)
+	List<Product> sortResultsByPrice(@Param("categoryId") Integer categoryId, @Param("query") String query, @Param("keyword") String keyword);
+	
+	@Query(value = "SELECT * FROM products  WHERE category_id = :categoryId  ORDER BY buy_count DESC", nativeQuery = true)
+	List<Product> sortByBuyCount(@Param("categoryId") Integer categoryId);
+	
+	@Query(value = " SELECT *\r\n"
+			+ "FROM products\r\n"
+			+ "WHERE category_id = :categoryId\r\n"
+			+ "ORDER BY IF(:keyword = 'ASC', price, NULL) ASC,\r\n"
+			+ "         IF(:keyword = 'DESC', price, NULL) DESC", nativeQuery = true)
+	List<Product> sortByPrice(@Param("categoryId") Integer categoryId, @Param("keyword") String keyword);
+	
 	
 	public Optional<Product> findById(long id);
 

@@ -97,4 +97,37 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.getReferenceById(id);
 	}
 
+	@Override
+	public List<Product> sortByBuyCount(Integer categoryId) {
+		return productRepository.sortByBuyCount(categoryId);
+	}
+
+	@Override
+	public List<Product> sortResultsByBuyCount(Integer categoryId, String query) {
+		return productRepository.sortResultsByBuyCount(categoryId, query);
+	}
+
+
+	@Override
+	public List<Product> sortResultsByBuyCount(String query) {
+		return productRepository.sortResultsByBuyCount(query);
+	}
+
+	@Override
+	public List<Product> sortResultsByPrice(String query, String keyword) {
+		return productRepository.sortResultsByPrice(query, keyword);
+	}
+
+	@Override
+	public List<Product> sortResultsByPrice(Integer categoryId, String query, String keyword) {
+		return productRepository.sortByPrice(categoryId, query);
+	}
+
+	@Override
+	public List<Product> sortByPrice(Integer categoryId, String keyword) {
+		return productRepository.sortByPrice(categoryId, keyword);
+	}
+
+
+
 }

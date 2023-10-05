@@ -79,10 +79,6 @@
 		text-decoration: none;
 	}
 
-	.pagination li {
-		margin-right: 5px;
-	}
-
 	.pagination .current-page {
 		background-color: white;
 	}
@@ -90,39 +86,44 @@
 
 <script>
 	function sortedByBuyCount() {
-		var currentURL = window.location.href;
-		var newUrl = currentURL.replace(/(\?|&)page=\d+/, '') + '?page=1&sortBy=sales';
+  var currentURL = window.location.href;
 
-		if (currentURL.includes("&sortBy=price")) {
-			if (currentURL.includes("?page=")) {
-				var url1 = currentURL.replace(/(\?|&)page=\d+/, '');
-				var url = url1.replace(/\&sortBy=price.*$/, '') + '?page=1&sortBy=sales';
-				window.location.replace(url);
-			}
-		} else {
-			window.location.replace(newUrl);
-		}
-	}
+  // Xóa tham số "page" và "sortBy" khỏi URL hiện tại
+  var newUrl = currentURL.replace(/(\?|&)page=\d+/, '').replace(/(\?|&)sortBy=[^&]*/, '');
+
+  // Thêm tham số "page=1&sortBy=sales" vào URL mới
+  newUrl += '&page=1&sortBy=sales';
+
+  // Kiểm tra nếu URL hiện tại đã có tham số "sortBy=price"
+  if (currentURL.includes("&sortBy=price")) {
+    if (currentURL.includes("&page=")) {
+      // Xóa tham số "page" và "sortBy" khỏi URL hiện tại và thay thế bằng "page=1&sortBy=sales"
+      var url = currentURL.replace(/(\?|&)page=\d+/, '').replace(/(\?|&)sortBy=[^&]*/, '') + '&page=1&sortBy=sales';
+      window.location.replace(url);
+    }
+  } else {
+    // Thay thế URL hiện tại bằng URL mới chứa tham số "page=1&sortBy=sales"
+    window.location.replace(newUrl);
+  }
+}
 
 	function sortByPrice(order) {
 		var currentURL = window.location.href;
-		var newUrl = currentURL.replace(/(\?|&)page=\d+/, '') + '?page=1&sortBy=price&ord=' + order;
+		var newUrl = currentURL.replace(/(\?|&)page=\d+/, '').replace(/(\?|&)sortBy=[^&]*/, '') + '&page=1&sortBy=price&ord=' + order;
 
 		if (currentURL.includes("&sortBy=sales")) {
-			if (currentURL.includes("?page=")) {
-				var url = currentURL.replace(/(\?|&)page=\d+/, '').replace('&sortBy=sales', '') + '?page=1&sortBy=price&ord=' + order;
+			if (currentURL.includes("&page=")) {
+				var url = currentURL.replace(/(\?|&)page=\d+/, '').replace(/(\?|&)sortBy=[^&]*/, '') + '&page=1&sortBy=price&ord=' + order;
 				window.location.replace(url);
 			}
 		} else if (currentURL.includes("&sortBy=price")) {
-			var url = currentURL.replace(/(\?|&)page=\d+/, '').replace(/\&sortBy=price.*$/, '') + '?page=1&sortBy=price&ord=' + order;
+			var url = currentURL.replace(/(\?|&)page=\d+/, '').replace(/(\?|&)sortBy=[^&]*/, '') + '&page=1&sortBy=price&ord=' + order;
 			window.location.replace(url);
 		} else {
 			window.location.replace(newUrl);
 		}
 	}
-
 </script>
-
 
 <body>
 
@@ -133,9 +134,7 @@
 				<h1>Product List</h1>
 				<div class="filter-container">
 					<a>Sort By</a>
-					<div>
-						<button class="btn custom-button" onclick="sortedByBuyCount()">Sales</button>
-					</div>
+					<button class="btn custom-button" onclick="sortedByBuyCount()">Sales</button>
 					<div class="dropdown">
 						<button class="dropbtn">Price</button>
 						<div class="dropdown-content">
@@ -143,17 +142,16 @@
 							<a onclick="sortByPrice('DESC')">High to Low</a>
 						</div>
 					</div>
-					<div class="pagination" onclick="">						
-						<a th:if="${currentPage > 1}"
-							th:href="@{/categories/{categoryId}/products(page=${currentPage - 1}, categoryId=${categoryId})}">&laquo;</a>
-						<a th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
-							th:href="@{/categories/{categoryId}/products(page=${pageNumber}, categoryId=${categoryId})}"
-							th:classappend="${pageNumber == currentPage} ? 'current-page' : ''"
-							th:text="${pageNumber}"></a> <a th:if="${currentPage < totalPages}"
-							th:href="@{/categories/{categoryId}/products(page=${currentPage + 1}, categoryId=${categoryId})}">&raquo;</a>
-					</div>
+					<div class="pagination" onclick="">
+							<a th:if="${currentPage > 1}"
+								th:href="@{/search(category=${categoryId}, keyword=${keyword}, page=${currentPage - 1})}">&laquo;</a>
+							<a th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
+								th:href="@{/search(category=${categoryId}, keyword=${keyword}, page=${pageNumber})}"
+								th:classappend="${pageNumber == currentPage} ? 'current-page' : ''"
+								th:text="${pageNumber}"></a> <a th:if="${currentPage < totalPages}"
+								th:href="@{/search(category=${categoryId}, keyword=${keyword}, page=${currentPage + 1})}">&raquo;</a>
+						</div>
 				</div>
-
 
 				<hr>
 				<div class="row">

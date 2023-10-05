@@ -143,14 +143,14 @@
 							<a onclick="sortByPrice('DESC')">High to Low</a>
 						</div>
 					</div>
-					<div class="pagination" onclick="">						
+					<div class="pagination">						
 						<a th:if="${currentPage > 1}"
-							th:href="@{/categories/{categoryId}/products(page=${currentPage - 1}, categoryId=${categoryId})}">&laquo;</a>
+							th:href="@{/categories/{categoryId}/products(page=${currentPage - 1},sortBy=price,ord=${order}, categoryId=${categoryId})}">&laquo;</a>
 						<a th:each="pageNumber : ${#numbers.sequence(1, totalPages)}"
-							th:href="@{/categories/{categoryId}/products(page=${pageNumber}, categoryId=${categoryId})}"
+							th:href="@{/categories/{categoryId}/products(page=${pageNumber},sortBy=price,ord=${order}, categoryId=${categoryId})}"
 							th:classappend="${pageNumber == currentPage} ? 'current-page' : ''"
 							th:text="${pageNumber}"></a> <a th:if="${currentPage < totalPages}"
-							th:href="@{/categories/{categoryId}/products(page=${currentPage + 1}, categoryId=${categoryId})}">&raquo;</a>
+							th:href="@{/categories/{categoryId}/products(page=${currentPage + 1},sortBy=price,ord=${order}, categoryId=${categoryId})}">&raquo;</a>
 					</div>
 				</div>
 
